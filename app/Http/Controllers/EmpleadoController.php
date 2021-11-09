@@ -20,8 +20,8 @@ class EmpleadoController extends Controller
     public function index1()
     {
         $documentoEmpleado = "1234";
-        $mensajes = DB::select('SELECT * 
-        FROM evaluacion ev 
+        $mensajes = DB::select('SELECT nombrecom, documento, evaluado, evaluador, descripcion, nombre
+        FROM cargo, grupo, evaluacion ev
         INNER JOIN empleado em ON ev.evaluador = em.id
         WHERE em.documento = ?', [$documentoEmpleado]);
         //return view('mensajes.index', compact('mensajes'));

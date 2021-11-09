@@ -80,7 +80,12 @@
     }
   }
       
-  
+  table, th, td, caption {
+    margin-left: auto; 
+    margin-right: auto;
+   border: 2px solid black;
+   border-collapse: collapse;
+ }
       header
       {
   padding:0;
@@ -138,8 +143,8 @@
   *{
     padding:0;
     margin:0;
-    font-family: : century gothic;
-    text-align: center;
+    font-family: century gothic;
+    text-align:center;
   }
   
   body{
@@ -462,15 +467,14 @@
   }
   
   
-  
-  . ok {
+  .ok {
     text-align: center;
     width: 100% ;
     padding:  12px ;
     background-color: #4e8;
     color : #fff
   }
-  . bad {
+  .bad {
     text-align: center;
     width: 100% ;
     padding: 12px ;
