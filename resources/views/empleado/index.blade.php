@@ -6,7 +6,7 @@
             <div class="panel-heading">
                 <h2>TABLA</h2>
             </div>
-            @if (!isset($mensajes))
+            @if (!isset($evaluaciones))
                 <div>No hay Mensajes</div>
             @else
                 <table class="table">
@@ -15,22 +15,34 @@
                             <th>NOMBRE</th>
                             <th>CEDULA</th>
                             <th>EVALUADO</th>
+                            <th>CEDULA</th>
                             <th>CARGO</th>
-                            <th>GRUPO</th>
-                            <th>EVALUADOR</th>
+                            <th>ESTADO</th>
                             <th>CALIFICAR</th>
+                            <th>EXPORTAR</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($mensajes as $mensaje)
+                        @foreach($evaluaciones as $evaluacion)
                             <tr>
-                                <td>{!! $mensaje->nombrecom !!}</td>
-                                <td>{!! $mensaje->documento !!}</td>
-                                <td>{!! $mensaje->evaluado !!}</td>
-                                <td>{!! $mensaje->descripcion !!}</td>
-                                <td>{!! $mensaje->nombre !!}</td>
-                                <td>{!! $mensaje->evaluador ? 'Pendiente' : 'Respondido' !!}</td>
-                                <td class="btn-group"><button type="button" class="btn btn-default" data-dismiss="modal">EVALUAR</button></td>
+                                <td>{!! $evaluacion->evaluador !!}</td>
+                                <td>{!! $evaluacion->evaluador_documento !!}</td>
+                                <td>{!! $evaluacion->evaluado !!}</td>
+                                <td>{!! $evaluacion->evaluado_documento !!}</td>
+                                <td>{!! $evaluacion->cargo_evaluado !!}</td>
+                                <td>{!! $evaluacion->estado_evaluacion ==0 ? 'Pendiente' : 'Completo' !!}</td>
+                                <td class="btn-group">
+                                    @if ($evaluacion->estado_evaluacion ==0)
+                                        <a type="button" href="/empleado/evaluacion/{{$evaluacion->id}}" class="btn btn-default" data-dismiss="modal">EVALUAR</a>
+                                    @elseif($evaluacion->estado_evaluacion ==1)
+                                        <a type="button" href="/empleado/evaluacion/respuesta/{{$evaluacion->id}}" class="btn btn-default" data-dismiss="modal">VER</a>
+                                    @endif
+                                </td>
+                                <td class="btn-group">
+                                    @if ($evaluacion->estado_evaluacion ==1)
+                                        <a type="button" href="/empleado/evaluacion/exportar/{{$evaluacion->id}}" class="btn btn-default" data-dismiss="modal">EXPORTAR</a>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

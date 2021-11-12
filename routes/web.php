@@ -17,6 +17,16 @@ Route::get('/', function () {
     return view('layout.main');
 });
 
-Route::get('/mensajes', [EmpleadoController::class, 'index1']);
-
 Route::get('/empleado', [EmpleadoController::class, 'index']);
+
+Route::get('/empleado/evaluacion/{id}', [EmpleadoController::class, 'evaluacion']);
+
+Route::post('/empleado/evaluacion/guardar', [EmpleadoController::class, 'guardar']);
+
+Route::get('/empleado/evaluacion/respuesta/{id}', [EmpleadoController::class, 'respuesta']);
+
+Route::get('/empleado/evaluacion/exportar/{id}', [EmpleadoController::class, 'exportar']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
