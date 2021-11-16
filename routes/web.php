@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadoController;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,10 +17,12 @@ use App\Http\Controllers\EmpleadoController;
 */
 
 Route::get('/', function () {
-    return view('layout.main');
+    return redirect('/empleado');
 });
 
-Route::get('/empleado', [EmpleadoController::class, 'index']);
+Route::get('/logout',[LoginController::class,'logout'])->name('logout');
+
+Route::get('/empleado', [EmpleadoController::class, 'index'])->name('empleado');
 
 Route::get('/empleado/evaluacion/{id}', [EmpleadoController::class, 'evaluacion']);
 
@@ -27,7 +32,9 @@ Route::get('/empleado/evaluacion/respuesta/{id}', [EmpleadoController::class, 'r
 
 Route::get('/empleado/evaluacion/exportar/{id}', [EmpleadoController::class, 'exportar']);
 
-Route::get('/empleado/evaluacion/actualizar/{id}', [EmpleadoController::class, 'actualizar']);
+Route::get('/empleado/perfil', [EmpleadoController::class, 'perfil']);
+
+Route::match(['get', 'post'],'/empleado/actualizar', [EmpleadoController::class, 'actualizar']);
 
 Auth::routes();
 

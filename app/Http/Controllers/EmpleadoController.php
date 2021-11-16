@@ -3,25 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
 class EmpleadoController extends Controller
 {
     //
-    public function __construct(){
+    private $usuario;
+    public function __construct()
+    {
         $this->middleware('auth');
-}
-    
+        $this->usuario = Auth::user();
+    }
+
 
     public function index()
     {
-        $documentoEmpleado = "2222";
-        $evaluaciones = DB::select('SELECT 
+        $documentoEmpleado = Auth::user()->documento;
+        $evaluaciones = DB::select('SELECT
         ev.id as id,
-        em.nombrecom as evaluador, 
-        em.documento as evaluador_documento,  
-        em2.nombrecom as evaluado, 
+        em.nombrecom as evaluador,
+        em.documento as evaluador_documento,
+        em2.nombrecom as evaluado,
         em2.documento as evaluado_documento,
         c.descripcion as cargo_evaluado,
         ev.estado as estado_evaluacion
@@ -31,12 +35,12 @@ class EmpleadoController extends Controller
         inner join cargo c on c.id = em2.cargo
         WHERE em.documento = ?', [$documentoEmpleado]);
         //return view('empleado.index', compact('evaluaciones'));
-        return view('empleado.index')->with('evaluaciones',$evaluaciones);
+        return view('empleado.index')->with('evaluaciones', $evaluaciones);
     }
 
     public function evaluacion($id)
     {
-        $resultado = DB::select('SELECT 
+        $resultado = DB::select('SELECT
         p.*,
         ep.id as evaluacion_pregunta,
         gp.nombre as grupo_pregunta
@@ -46,13 +50,13 @@ class EmpleadoController extends Controller
         INNER JOIN pregunta p ON ep.id_preguntas = p.id
         INNER JOIN grupo_pregunta gp ON gp.id = p.grupo_pregunta
         WHERE e.id = ? ORDER BY gp.id, p.id', [$id]);
-        return view('empleado.evaluacion')->with('preguntas',$resultado)->with('evaluacion',$id);
+        return view('empleado.evaluacion')->with('preguntas', $resultado)->with('evaluacion', $id);
     }
 
     public function guardar(Request $request)
     {
         $id = $request->input('evaluacion');
-        $resultado = DB::select('SELECT 
+        $resultado = DB::select('SELECT
         p.*,
         ep.id as evaluacion_pregunta,
         gp.nombre as grupo_pregunta
@@ -63,7 +67,7 @@ class EmpleadoController extends Controller
         INNER JOIN grupo_pregunta gp ON gp.id = p.grupo_pregunta
         WHERE e.id = ? ORDER BY gp.id, p.id', [$id]);
 
-        foreach($resultado as $pregunta){
+        foreach ($resultado as $pregunta) {
             $valor = $request->input($pregunta->evaluacion_pregunta);
             DB::insert("INSERT INTO respuesta_pregunta(evaluacion,evaluacion_pregunta,valor) VALUES ('$id','$pregunta->evaluacion_pregunta','$valor')");
         }
@@ -73,8 +77,8 @@ class EmpleadoController extends Controller
 
     public function respuesta($id)
     {
-        
-        $respuesta_eva = DB::select('SELECT 
+
+        $respuesta_eva = DB::select('SELECT
         e.id as evaluacion,
         e1.nombrecom as evaluador,
         e2.nombrecom as evaluado,
@@ -91,12 +95,12 @@ class EmpleadoController extends Controller
         INNER JOIN empleado e1 ON e.evaluado = e1.id
         INNER JOIN empleado e2 ON e.evaluador = e2.id
         WHERE e.id = ?', [$id]);
-        return view('empleado.respuesta')->with('respuestas',$respuesta_eva);
+        return view('empleado.respuesta')->with('respuestas', $respuesta_eva);
     }
 
     public function exportar($id)
     {
-        $respuesta_eva = DB::select('SELECT 
+        $respuesta_eva = DB::select('SELECT
         e.id as evaluacion,
         e1.nombrecom as evaluador,
         e2.nombrecom as evaluado,
@@ -119,24 +123,12 @@ class EmpleadoController extends Controller
         //view()->share('respuestas', $respuesta_eva);
         //$pdf = PDF::loadView('empleado.pdf', $respuesta_eva);
         //return $pdf->download('archivo-pdf.pdf');
-        return view('empleado.pdf')->with('respuestas',$respuesta_eva);
+        return view('empleado.pdf')->with('respuestas', $respuesta_eva);
     }
 
-    public function actualizar($id)
+    public function actualizar(Request $request)
     {
-        $actualizar=BD::update('UPDATE 
-        empleado 
-        SET direccion='', 
-        celular='', 
-        correo='', 
-        edad='', 
-        genero='' 
-        WHERE id = ?', [$id]);
-    }
-
-    public function perfil($id)
-    {
-        $mostrar = BD::select('SELECT 
+        $mostrar = DB::select('SELECT
         em.documento as cedula,
         em.nombrecom as nombre_empleado,
         c.descripcion as cargo_empleado,
@@ -149,8 +141,41 @@ class EmpleadoController extends Controller
         FROM empleado em
         inner join cargo c on c.id = em.cargo
         INNER JOIN grupo g on g.id = em.grupo
-        WHERE em.id = ?', [$id]);
-        return view('empleado.perfil')->with('perfil',$mostrar);
-        ')
+        WHERE em.id = ?', [Auth::user()->id]);
+        $mostrar = $mostrar[0];
+
+        if ($request->isMethod('get')) {
+            return view('empleado.actualizar')->with('perfil',$mostrar);
+        } else if ($request->isMethod('post')) {
+            $actualizar = DB::update("UPDATE
+        empleado
+        SET direccion='$request->direccion',
+        celular='$request->celular',
+        correo='$request->correo',
+        edad='$request->edad',
+        genero='$request->genero'
+        WHERE id = ?", [Auth::user()->id]);
+        }
+        return  redirect('/empleado/perfil');
+    }
+
+    public function perfil()
+    {
+        $mostrar = DB::select('SELECT
+        em.documento as cedula,
+        em.nombrecom as nombre_empleado,
+        c.descripcion as cargo_empleado,
+        g.nombre as grupo_empleado,
+        em.direccion as direccion,
+        em.celular as celular,
+        em.correo as correo,
+        em.edad as edad,
+        em.genero as genero
+        FROM empleado em
+        inner join cargo c on c.id = em.cargo
+        INNER JOIN grupo g on g.id = em.grupo
+        WHERE em.id = ?', [Auth::user()->id]);
+        $mostrar = $mostrar[0];
+        return view('empleado.perfil')->with('perfil', $mostrar);
     }
 }
