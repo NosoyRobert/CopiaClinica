@@ -27,6 +27,8 @@ Route::get('/empleado/evaluacion/respuesta/{id}', [EmpleadoController::class, 'r
 
 Route::get('/empleado/evaluacion/exportar/{id}', [EmpleadoController::class, 'exportar']);
 
+Route::get('/empleado/evaluacion/actualizar/{id}', [EmpleadoController::class, 'actualizar']);
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

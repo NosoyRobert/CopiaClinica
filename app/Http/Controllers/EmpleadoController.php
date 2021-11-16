@@ -121,4 +121,36 @@ class EmpleadoController extends Controller
         //return $pdf->download('archivo-pdf.pdf');
         return view('empleado.pdf')->with('respuestas',$respuesta_eva);
     }
+
+    public function actualizar($id)
+    {
+        $actualizar=BD::update('UPDATE 
+        empleado 
+        SET direccion='', 
+        celular='', 
+        correo='', 
+        edad='', 
+        genero='' 
+        WHERE id = ?', [$id]);
+    }
+
+    public function perfil($id)
+    {
+        $mostrar = BD::select('SELECT 
+        em.documento as cedula,
+        em.nombrecom as nombre_empleado,
+        c.descripcion as cargo_empleado,
+        g.nombre as grupo_empleado,
+        em.direccion as direccion,
+        em.celular as celular,
+        em.correo as correo,
+        em.edad as edad,
+        em.genero as genero
+        FROM empleado em
+        inner join cargo c on c.id = em.cargo
+        INNER JOIN grupo g on g.id = em.grupo
+        WHERE em.id = ?', [$id]);
+        return view('empleado.perfil')->with('perfil',$mostrar);
+        ')
+    }
 }

@@ -22,7 +22,6 @@
 		<ul>
 			<li><a href="/empleado">INICIO</a></li>
 			<li><a href="profile.php?action=perfil">PERFIL</a></li>
-			<li><a href="profile.php?action=exportar">EXPORTAR</a></li>
 			<li><a href="profile.php?action=cerrar">CERRAR SESION</a></li>
 		</ul>
 	</nav>
