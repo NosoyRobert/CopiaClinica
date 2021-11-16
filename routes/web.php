@@ -27,9 +27,11 @@ Route::get('/empleado/evaluacion/respuesta/{id}', [EmpleadoController::class, 'r
 
 Route::get('/empleado/evaluacion/exportar/{id}', [EmpleadoController::class, 'exportar']);
 
-Route::get('/empleado/evaluacion/perfil/{id}', [EmpleadoController::class, 'perfil']);
+Route::get('/empleado/perfil/{id}', [EmpleadoController::class, 'perfil']);
 
-Route::get('/empleado/evaluacion/actualizar/{id}', [EmpleadoController::class, 'actualizar']);
+Route::get('/empleado/actualizar/{id}', [EmpleadoController::class, 'actualizar']);
+
+Route::get('/empleado/administrar/{id}', [EmpleadoController::class, 'administrar']);
 
 Auth::routes();
 

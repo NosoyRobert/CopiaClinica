@@ -24,7 +24,8 @@ class EmpleadoController extends Controller
         em2.nombrecom as evaluado, 
         em2.documento as evaluado_documento,
         c.descripcion as cargo_evaluado,
-        ev.estado as estado_evaluacion
+        ev.estado as estado_evaluacion,
+        em.perfil as admins
         FROM evaluacion ev
         INNER JOIN empleado em ON ev.evaluador = em.id
         INNER JOIN empleado em2 ON ev.evaluado = em2.id
@@ -124,14 +125,14 @@ class EmpleadoController extends Controller
 
     public function actualizar($id)
     {
-        $actualizar=BD::update('UPDATE 
+        $actualizar=BD::update("UPDATE 
         empleado 
         SET direccion='', 
         celular='', 
         correo='', 
         edad='', 
         genero='' 
-        WHERE id = ?', [$id]);
+        WHERE id = ?", [$id]);
     }
 
     public function perfil($id)
@@ -151,6 +152,5 @@ class EmpleadoController extends Controller
         INNER JOIN grupo g on g.id = em.grupo
         WHERE em.id = ?', [$id]);
         return view('empleado.perfil')->with('perfil',$mostrar);
-        ')
     }
 }

@@ -28,7 +28,31 @@
 	@endif	
 	<section>
             @section('content')
-                Hola mundo
+                
+			@if (!isset($evaluaciones))
+				<div>No hay Mensajes</div>
+				@else	
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ADMINISTRADOR</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($evaluaciones as $evaluacion)
+								<tr>
+									<td>{!! $evaluacion->admins ==0 ? 'NO' : 'SI' !!}</td>
+									<td class="btn-group">
+										@if ($evaluacion->admins ==1)
+											<a type="button" href="/empleado/evaluacion/administrar/{id}" class="btn btn-default" data-dismiss="modal">ADMINISTRAR</a>
+										@endif
+									</td>								
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+					@endif
+
             @show
 	</section>
 
