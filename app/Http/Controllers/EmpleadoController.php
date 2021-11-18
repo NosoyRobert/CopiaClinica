@@ -9,12 +9,11 @@ use PDF;
 
 class EmpleadoController extends Controller
 {
-    //
-    private $usuario;
+
     public function __construct()
     {
         $this->middleware('auth');
-        $this->usuario = Auth::user();
+
     }
 
 
