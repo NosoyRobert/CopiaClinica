@@ -67,7 +67,8 @@ class LoginController extends Controller
 
         $credentials = [
             'documento' => $request->documento,
-            'password' => $request->password, //Hash::make($request->password)
+            'password' => $request->password,
+            'estado'=>1 //Hash::make($request->password)
         ];
         if (Auth::attempt($credentials)) {
             return redirect()

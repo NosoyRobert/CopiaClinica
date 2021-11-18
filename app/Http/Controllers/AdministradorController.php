@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\EmpleadoExport;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use PDF;
+use Excel;
 
 class AdministradorController extends Controller
 {
@@ -38,12 +44,12 @@ class AdministradorController extends Controller
         global $con;
 
         $registrar_sql = DB::insert("INSERT INTO empleado(documento,nombrecom,cargo,grupo) VALUES ($documento, $nombrecom, $cargo, $grupo)");
-        $resul=mysqli_query($con, $registrar_sql);
+        $resul = mysqli_query($con, $registrar_sql);
 
         set_time_limit(500);
         return $resul;
     }
-    
+
     public function eliminar(Request $request)
     {
         $eliminar = DB::delete("DELETE FROM 
@@ -69,7 +75,8 @@ class AdministradorController extends Controller
         em.documento as cedula,
         em.nombrecom as nombre_empleado,
         c.descripcion as cargo_empleado,
-        g.nombre as grupo_empleado
+        g.nombre as grupo_empleado,
+        em.estado as estado
         FROM empleado em
         inner join cargo c on c.id = em.cargo
         INNER JOIN grupo g on g.id = em.grupo
@@ -79,21 +86,94 @@ class AdministradorController extends Controller
 
     function importar(Request $request)
     {
-        $file = $request->archivo->store('importar');
+        $file = $request->archivo->getClientOriginalName();
+        $path = $request->file('archivo')->storeAs('uploads', $file, 'public');
+        $conn = Storage::disk('public');
+        $stream = $conn->readStream($path);
+        $content = "";
 
-        $fp = fopen(storage_path($file), 'r');//abrir archivo
-        $rows = 0;//contador de filas
+        $cont = 0;
+        $errores = 0;
+        while (($line = fgets($stream, 2048)) !== false) {
+            $datos = explode(";", $line);
+            //echo $datos[0]. "<br/> ".$datos[1]. "<br/> ".$datos[2]. "<br/> ".$datos[3]. "<br/> ".$datos[4]."<br>";
+            if ($this->insertarEmpleado($datos)) {
+                $cont++;
+            } else {
+                $errores++;
+            }
+        }
+        echo "Se insertaron correctamente : " . $cont . ", y se presetaron " . $errores . " errores";
+        /* return response($content)
+               ->withHeaders([
+                    'Content-Type' => 'text/plain',
+                    'Cache-Control' => 'no-store, no-cache',
+                    'Content-Disposition' => 'attachment; filename ='.$file,
+               ]);*/
+    }
 
-        while($datos = fgetcsv($fp, 1000, ";"))
-        {
-            $rows ++;
-            echo $datos[0]. " ".$datos[1]. " ".$datos[2]. " ".$datos[3]. " ".$datos[4]. " ".$datos[5]."<br>";
+    private function insertarEmpleado($datos)
+    {
+        $password = Hash::make($datos[0]);
+        try {
+            DB::insert("INSERT INTO empleado(documento,nombrecom,cargo,grupo,password) VALUES('$datos[0]','$datos[1]','$datos[2]','$datos[3]','$password')");
+            return true;
+        } catch (Exception $ex) {
+            return false;
         }
     }
 
-    protected function storeImage(Request $request) 
+    function impo_evaluadores(Request $request)
     {
-        $path = $request->file('archivo')->store('public/profile');
-        return substr($path, strlen('public/'));
+        $file = $request->archivo->getClientOriginalName();
+        $path = $request->file('archivo')->storeAs('uploads', $file, 'public');
+        $conn = Storage::disk('public');
+        $stream = $conn->readStream($path);
+        $content = "";
+
+        $cont = 0;
+        $errores = 0;
+        while (($line = fgets($stream, 2048)) !== false) {
+            $datos = explode(";", $line);
+            //echo $datos[0]. "<br/> ".$datos[1]. "<br/> ".$datos[2]. "<br/> ".$datos[3]. "<br/> ".$datos[4]."<br>";
+            if ($this->insertar_evaluadores($datos)) {
+                $cont++;
+            } else {
+                $errores++;
+            }
+        }
+        echo "Se insertaron correctamente : " . $cont . ", y se presetaron " . $errores . " errores";
+        /* return response($content)
+               ->withHeaders([
+                    'Content-Type' => 'text/plain',
+                    'Cache-Control' => 'no-store, no-cache',
+                    'Content-Disposition' => 'attachment; filename ='.$file,
+               ]);*/
+    }
+
+    private function insertar_evaluadores($datos)
+    {
+        $password = Hash::make($datos[0]);
+        try {
+            DB::insert("INSERT INTO empleado(documento,nombrecom,cargo,grupo,password) VALUES('$datos[0]','$datos[1]','$datos[2]','$datos[3]','$password')");
+            return true;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+
+    public function inactivarEmpleado($cedula, $estado)
+    {
+        if (Auth::user()->perfil == 1) {
+            DB::update("UPDATE empleado SET estado=$estado WHERE documento = $cedula");
+            return  redirect('/admin/mostrar');
+        } else {
+            return response('No esta autorizado', 403);
+        }
+    }
+
+    public function export()
+    {
+        return Excel::download(new EmpleadoExport, 'invoices.xlsx');
     }
 }

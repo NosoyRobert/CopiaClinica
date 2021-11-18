@@ -25,6 +25,7 @@
                     <td><p class="center">Nombre:</p></td>
                     <td><p class="center">Cargo:</p></td>
                     <td><p class="center">Grupo:</p></td>
+                    <td><p class="center">Estado:</p></td>
 
                 </tr>
 
@@ -35,13 +36,21 @@
                     <td><p class="center">{!! $mostrar->nombre_empleado !!}</p></td>
                     <td><p class="center">{!! $mostrar->cargo_empleado !!}</p></td>
                     <td><p class="center">{!! $mostrar->grupo_empleado !!}</p></td>
+                    <td><p class="center">{!! $mostrar->estado !!}</p></td>
+                    <td class="btn-group">
+                        @if ($mostrar->estado ==0)
+                            <a type="button" href="/admin/empleado/inactivar/{{$mostrar->cedula}}/1" data-dismiss="modal">activar</a>
+                        @elseif($mostrar->estado == 1)
+                            <a type="button" href="/admin/empleado/inactivar/{{$mostrar->cedula}}/0"  data-dismiss="modal">INACTIVAR</a>
+                        @endif
+                    </td>
                 </tr>
+
+                <?php $numero++;?>
                 @endforeach
 
 
         <?php
-
-        $numero++;
 
     ?>
                 <tr>

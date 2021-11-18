@@ -32,7 +32,7 @@ class EmpleadoController extends Controller
         INNER JOIN empleado em ON ev.evaluador = em.id
         INNER JOIN empleado em2 ON ev.evaluado = em2.id
         inner join cargo c on c.id = em2.cargo
-        WHERE em.documento = ?', [$documentoEmpleado]);
+        WHERE em2.estado = 1 AND em.documento = ?', [$documentoEmpleado]);
         //return view('empleado.index', compact('evaluaciones'));
         return view('empleado.index')->with('evaluaciones', $evaluaciones);
     }

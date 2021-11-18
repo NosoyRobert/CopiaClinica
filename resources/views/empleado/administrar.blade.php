@@ -10,11 +10,11 @@
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=asignar"  class="but">Asignar Evaluados</a>'; ?>
+        <?php echo '<a href="/admin/impo_evaluadores"  class="but">Asignar Evaluados</a>'; ?>
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=cambiar"  class="but">Cambiar Evaluadores</a>'; ?>
+        <?php // echo '<a href="profile.php?action=cambiar"  class="but">Cambiar Evaluadores</a>'; ?>
 
         <br><br>
 
@@ -34,7 +34,7 @@
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=resultados"  class="but">Exportar Resultados</a>'; ?>
+        <?php // echo '<a href="profile.php?action=resultados"  class="but">Exportar Resultados</a>'; ?>
 
         <br><br>
 
@@ -42,11 +42,11 @@
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=Copia_seguridad"  class="but">Backup</a>'; ?>
+        <?php // echo '<a href="profile.php?action=Copia_seguridad"  class="but">Backup</a>'; ?>
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=espe"  class="but">Importar Preguntas Especificas</a>'; ?>
+        <?php // echo '<a href="profile.php?action=espe"  class="but">Importar Preguntas Especificas</a>'; ?>
 
         <br><br>
 
@@ -58,7 +58,7 @@
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=excel"  class="but">Generar Matriz Excel</a>'; ?>
+        <?php // echo '<a href="profile.php?action=excel"  class="but">Generar Matriz Excel</a>'; ?>
 
 
     </body>
