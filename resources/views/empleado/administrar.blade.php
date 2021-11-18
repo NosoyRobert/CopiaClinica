@@ -6,7 +6,7 @@
 
         <br><br>
         
-        <?php echo '<a href="profile.php?action=registrar"  class="but">Registrar</a>'; ?>
+        <?php echo '<a href="/empleado/registrar"  class="but">Registrar</a>'; ?>
 
         <br><br>
 
@@ -18,19 +18,19 @@
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=registrados"  class="but">Empleados Registrados</a>'; ?>
+        <?php echo '<a href="/admin/mostrar"  class="but">Empleados Registrados</a>'; ?>
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=buscar"  class="but">Buscar</a>'; ?>
+        <?php echo '<a href="/empleado/buscar"  class="but">Buscar</a>'; ?>
 
         <br><br>
         
-        <?php echo '<a href="profile.php?action=eliminar"  class="but">Eliminar</a>'; ?>
+        <?php echo '<a href="/admin/eliminar"  class="but">Eliminar</a>'; ?>
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=borrar"  class="but">Borrar intentos</a>'; ?>
+        <?php echo '<a href="/admin/intentos"  class="but">Borrar intentos</a>'; ?>
 
         <br><br>
 
@@ -38,7 +38,7 @@
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=importar"  class="but">Importar base de datos</a>'; ?>
+        <?php echo '<a href="/admin/importar"  class="but">Importar base de datos</a>'; ?>
 
         <br><br>
 
@@ -50,15 +50,11 @@
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=truncate"  class="but">Truncar</a>'; ?>
-
-        <br><br>
-
         <?php echo '<a href="profile.php?action=preguntas"  class="but">Editar Preguntas Especificas</a>'; ?>
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=Expo_datos"  class="but">Matriz de Datos</a>'; ?>
+        <?php echo '<a href="/empleado/excel"  class="but">Matriz de Datos</a>'; ?>
 
         <br><br>
 

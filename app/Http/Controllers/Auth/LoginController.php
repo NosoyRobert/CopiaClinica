@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use blog\User;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -29,7 +30,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/empleado';
 
     /**
      * Create a new controller instance.
@@ -41,30 +42,39 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function username(){
+    public function username()
+    {
         return "documento";
     }
 
-    public function token(){
+    public function token()
+    {
         return "password";
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
     }
 
     public function login(Request $request)
     {
-        $input = $request->only('documento','password');
+        $input = $request->only('documento', 'password');
 
-        //$input['password'] = bcrypt($input['password']);
- 
 
-        if (Auth::attempt($input)) {
-            // The user is active, not suspended, and exists.
+        $credentials = [
+            'documento' => $request->documento,
+            'password' => $request->password, //Hash::make($request->password)
+        ];
+        if (Auth::attempt($credentials)) {
             return redirect()
-            ->route('empleado')
-            ->with('Welcome! Your account has been successfully created!');
-
-        }else 
-        return "error";
-       /* if (Auth::attempt($credentials)) {
+                ->route('empleado');
+        } else
+            return "error";
+        /* if (Auth::attempt($credentials)) {
             // Authentication passed...
             return redirect()->intended('dashboard');
         }*/
