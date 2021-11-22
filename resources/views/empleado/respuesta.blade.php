@@ -29,4 +29,6 @@
         <br>
             
     </form>
+    <?php echo '<a href="/empleado"  class="but">Volver</a>'; ?>
+
 @endsection

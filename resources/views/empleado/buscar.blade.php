@@ -8,7 +8,7 @@
 
     <?php echo '<a href="/empleado/administrar"  class="but">Volver</a>'; ?>
 
-    <form method="POST" action="/empleado/buscar/">
+    <form method="POST" action="/empleado/buscar">
 
         @csrf
 

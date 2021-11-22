@@ -14,7 +14,7 @@
 
         <br><br>
 
-        <?php // echo '<a href="profile.php?action=cambiar"  class="but">Cambiar Evaluadores</a>'; ?>
+        <?php echo '<a href="/admin/camb_eva"  class="but">Cambiar Evaluadores</a>'; ?>
 
         <br><br>
 
@@ -46,11 +46,11 @@
 
         <br><br>
 
-        <?php // echo '<a href="profile.php?action=espe"  class="but">Importar Preguntas Especificas</a>'; ?>
+        <?php  echo '<a href="/admin/impo_preguntas"  class="but">Importar Preguntas Especificas</a>'; ?>
 
         <br><br>
 
-        <?php echo '<a href="profile.php?action=preguntas"  class="but">Editar Preguntas Especificas</a>'; ?>
+        <?php echo '<a href="/admin/editar_preguntas"  class="but">Editar Preguntas Especificas</a>'; ?>
 
         <br><br>
 
