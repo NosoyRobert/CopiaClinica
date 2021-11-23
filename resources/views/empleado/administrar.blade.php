@@ -54,7 +54,7 @@
 
         <br><br>
 
-        <?php // echo '<a href="profile.php?action=excel"  class="but">Generar Matriz Excel</a>'; ?>
+        <?php echo '<a href="/empleado/excel"  class="but">Generar Matriz Excel</a>'; ?>
 
 
     </body>
