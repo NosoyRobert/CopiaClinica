@@ -40,6 +40,11 @@
         text-align: center;
         margin: 30px 0px 30px 0px;
     }
+    h3.si{
+        font-family: 'Oswald', sans-serif;
+        text-align:center;
+        font-size: 17pt;
+    }
     
 </style>
 
@@ -48,7 +53,7 @@
     <h1 class="titulo">Evaluacion de Desempeño.</h1> <br/>        
     <table>
         <tr>
-        <p class="si">EVALUADO:</p>
+        <h3 class="si">EVALUADO:</h3>
         <p> {{$respuestas[0]->evaluado}}</p>
         </tr>
        <br/>
@@ -68,6 +73,11 @@
         <p> {{$respuestas[0]->evaluador}} </p>
        </tr>
        <br/>
+       <tr>
+        <p class="bren">PROMEDIO</p>
+        <p> {{$respuestas[0]->puntajevaluacion_pregunta}}/ </p>
+        </tr>
+       <br/>
        <br/>
        <tr>
         <td>&nbsp;</td>
@@ -84,9 +94,6 @@
                 <p class="bren">{!! $pregunta->puntajevaluacion_pregunta !!}</p>
             </div>
     @endforeach
-        <tr>
-            <p class="si">PROMEDIO</p>
-            <p> {{$respuestas[0]->puntajevaluacion_pregunta}}/ </p>
-        </tr>
+        
 
     <br/><br/><hr class="hr"/><br/>

@@ -5,17 +5,22 @@
 @endsection 
 
 @section('content')
+<br/>
+    <?php $cont=0; $eval=0; ?>
     <div class="container col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2>EVALUACIONES</h2>
+                <h1 class="fi">EVALUACIONES</h1>
             </div>
+            <br/>
+            <br/>
+            <br/>
             @if (!isset($evaluaciones))
                 <div>No hay Mensajes</div>
             @else
-                <table class="table">
+                <table class="table" name="table">
                     <thead>
-                        <tr>
+                        <tr >
                             <th>NOMBRE</th>
                             <th>CEDULA</th>
                             <th>EVALUADO</th>
@@ -52,6 +57,38 @@
                     </tbody>
                 </table>
             @endif
+
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <hr/>
+            <br/>
+            <br/>
+            <div>
+                <h2> <?php echo "INFORMACION DE EVALUACIÓN"; ?> </h2>
+                <div>
+                <br/>
+                <br/>
+                <p>
+            
+                    <table style="width:40%" class="center">	
+                        <tr>
+                            <td><h3> NOTA FINAL: </h3> </td>
+                            <td><h3></h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3> TOTAL EVALUADORES: </h3> </td>
+                            <td ><h3> </h3></td>
+                        </table>
+                </p>
+                <p>
+                </p>
+                </div>
+            </div>
+
+
+
         </div>
     </div>
 @endsection

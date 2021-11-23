@@ -120,8 +120,8 @@ class EmpleadoController extends Controller
         //return view('empleado.respuesta')->with('respuestas',$respuesta_eva);
 
         view()->share('respuestas', $respuesta_eva);
-        $pdf = PDF::loadView('empleado.pdf', $respuesta_eva);
-        return $pdf->download('archivo-pdf.pdf');
+        //$pdf = PDF::loadView('empleado.pdf', $respuesta_eva);
+        //return $pdf->download('archivo-pdf.pdf');
         return view('empleado.pdf')->with('respuestas', $respuesta_eva);
     }
 

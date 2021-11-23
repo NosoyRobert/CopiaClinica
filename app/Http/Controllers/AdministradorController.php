@@ -312,4 +312,17 @@ class AdministradorController extends Controller
         }return null;
 
     }
+
+    public function Buscar_grupo($GR)
+    {
+        $grupos = DB::select("SELECT 
+        em.nombrecom as nombre,
+        em.documento as cedula,
+        g.nombre as grupo
+        FROM talentoh.empleado em
+        INNER JOIN grupo g ON g.id = em.grupo
+        WHERE g.id = ?", [$GR]);
+
+        return view('empledo.buscar')->with('grupos', $grupos);
+    }
 }

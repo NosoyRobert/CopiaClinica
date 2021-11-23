@@ -50,10 +50,6 @@
 
         <br><br>
 
-        <?php echo '<a href="/admin/editar_preguntas"  class="but">Editar Preguntas Especificas</a>'; ?>
-
-        <br><br>
-
         <?php echo '<a href="/empleado/excel"  class="but">Matriz de Datos</a>'; ?>
 
         <br><br>
