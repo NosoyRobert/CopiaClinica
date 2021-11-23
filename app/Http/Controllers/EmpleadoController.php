@@ -9,11 +9,10 @@ use PDF;
 
 class EmpleadoController extends Controller
 {
-
+    //
     public function __construct()
     {
         $this->middleware('auth');
-
     }
 
 
@@ -27,12 +26,13 @@ class EmpleadoController extends Controller
         em2.nombrecom as evaluado,
         em2.documento as evaluado_documento,
         c.descripcion as cargo_evaluado,
-        ev.estado as estado_evaluacion
+        ev.estado as estado_evaluacion,
+        em.perfil as admins
         FROM evaluacion ev
         INNER JOIN empleado em ON ev.evaluador = em.id
         INNER JOIN empleado em2 ON ev.evaluado = em2.id
         inner join cargo c on c.id = em2.cargo
-        WHERE em.documento = ?', [$documentoEmpleado]);
+        WHERE em2.estado = 1 AND em.documento = ?', [$documentoEmpleado]);
         //return view('empleado.index', compact('evaluaciones'));
         return view('empleado.index')->with('evaluaciones', $evaluaciones);
     }
@@ -144,7 +144,7 @@ class EmpleadoController extends Controller
         $mostrar = $mostrar[0];
 
         if ($request->isMethod('get')) {
-            return view('empleado.actualizar')->with('perfil',$mostrar);
+            return view('empleado.actualizar')->with('perfil', $mostrar);
         } else if ($request->isMethod('post')) {
             $actualizar = DB::update("UPDATE
         empleado
@@ -158,8 +158,7 @@ class EmpleadoController extends Controller
         return  redirect('/empleado/perfil');
     }
 
-    public function perfil()
-    {
+    private function getDatosEmpleado($cedula){
         $mostrar = DB::select('SELECT
         em.documento as cedula,
         em.nombrecom as nombre_empleado,
@@ -173,8 +172,43 @@ class EmpleadoController extends Controller
         FROM empleado em
         inner join cargo c on c.id = em.cargo
         INNER JOIN grupo g on g.id = em.grupo
-        WHERE em.id = ?', [Auth::user()->id]);
+        WHERE em.documento = ?', [$cedula]);
         $mostrar = $mostrar[0];
+        return $mostrar;
+    }
+
+    public function perfil()
+    {
+       $mostrar = $this->getDatosEmpleado(Auth::user()->documento);
         return view('empleado.perfil')->with('perfil', $mostrar);
     }
+
+    public function registrar(Request $request)
+    {
+        if ($request->isMethod('get')) {
+            return view('empleado.registrar');
+        } else if ($request->isMethod('post')) {
+            $registrar = DB::insert("INSERT INTO
+        empleado(documento,nombrecom,cargo,grupo)
+        VALUES
+        ('$request->cedula',
+        '$request->nombre',
+        '$request->grupo',
+        '$request->cargo')");
+            return  redirect('/empleado/registrar');
+        }
+    }
+
+    public function buscar(Request $request)
+    {
+        if ($request->isMethod('get')) {
+            return view('empleado.buscar');
+        } else if ($request->isMethod('post')) {
+
+        $mostrar = $this->getDatosEmpleado($request->documento);
+        return view('empleado.perfil')->with('perfil', $mostrar);
+        }
+    }
+
+
 }

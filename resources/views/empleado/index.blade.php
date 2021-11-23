@@ -1,10 +1,14 @@
 @extends('layout.main')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}"> 
+@endsection 
+
 @section('content')
     <div class="container col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2>TABLA</h2>
+                <h2>EVALUACIONES</h2>
             </div>
             @if (!isset($evaluaciones))
                 <div>No hay Mensajes</div>
@@ -33,14 +37,14 @@
                                 <td>{!! $evaluacion->estado_evaluacion ==0 ? 'Pendiente' : 'Completo' !!}</td>
                                 <td class="btn-group">
                                     @if ($evaluacion->estado_evaluacion ==0)
-                                        <a type="button" href="/empleado/evaluacion/{{$evaluacion->id}}" class="btn btn-default" data-dismiss="modal">EVALUAR</a>
+                                        <a type="button" href="/empleado/evaluacion/{{$evaluacion->id}}" class="but" data-dismiss="modal">EVALUAR</a>
                                     @elseif($evaluacion->estado_evaluacion ==1)
-                                        <a type="button" href="/empleado/evaluacion/respuesta/{{$evaluacion->id}}" class="btn btn-default" data-dismiss="modal">VER</a>
+                                        <a type="button" href="/empleado/evaluacion/respuesta/{{$evaluacion->id}}" class="but" data-dismiss="modal">VER</a>
                                     @endif
                                 </td>
                                 <td class="btn-group">
                                     @if ($evaluacion->estado_evaluacion ==1)
-                                        <a type="button" href="/empleado/evaluacion/exportar/{{$evaluacion->id}}" class="btn btn-default" data-dismiss="modal">EXPORTAR</a>
+                                        <a type="button" href="/empleado/evaluacion/exportar/{{$evaluacion->id}}" class="but" data-dismiss="modal">EXPORTAR</a>
                                     @endif
                                 </td>
                             </tr>

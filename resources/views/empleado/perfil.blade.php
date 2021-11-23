@@ -86,6 +86,11 @@
             <div>
                 <a href="/empleado/actualizar">Actualizar</a>
             </div>
+            <div>      
+                @if (Auth::user()->perfil == 1)         
+                <a href="/admin/eliminar">Eliminar</a>
+                @endif
+            </div>
         </div>
     </div>
     <br><br>
