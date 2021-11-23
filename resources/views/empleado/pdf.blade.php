@@ -18,8 +18,8 @@
 
     p{
         font-family: 'Oswald', sans-serif;
-	text-align: center;
-    font-size: 12pt;
+        text-align: center;
+        font-size: 15pt;
     }
     p.si{
         font-family: 'Oswald', sans-serif;
@@ -54,28 +54,28 @@
     <table>
         <tr>
         <h3 class="si">EVALUADO:</h3>
-        <p> {{$respuestas[0]->evaluado}}</p>
+        <p > {{$respuestas[0]->evaluado}}</p>
         </tr>
        <br/>
        <br/>
        <tr>
-        <p class="si">DEPARTAMENTO/ÁREA: </p>
+        <h3 class="si">DEPARTAMENTO/ÁREA: </h3>
         <p > {{$respuestas[0]->grupo_pregunta}} </p>
        </tr>
        <br/>
        <tr>
-        <p class="si">FECHA DE EVALUACIÓN: </p>
+        <h3 class="si">FECHA DE EVALUACIÓN: </h3>
         <p> {{$respuestas[0]->fecha}} </p>
        </tr>
        <br/>
        <tr>
-        <p class="si">EVALUADOR</p>
+        <h3 class="si">EVALUADOR</h3>
         <p> {{$respuestas[0]->evaluador}} </p>
        </tr>
        <br/>
        <tr>
-        <p class="bren">PROMEDIO</p>
-        <p> {{$respuestas[0]->puntajevaluacion_pregunta}}/ </p>
+        <h3 class="si">PROMEDIO</h3>
+        <p> {{$respuestas[0]->puntajevaluacion_pregunta/3}} </p>
         </tr>
        <br/>
        <br/>
