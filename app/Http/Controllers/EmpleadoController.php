@@ -120,8 +120,8 @@ class EmpleadoController extends Controller
         //return view('empleado.respuesta')->with('respuestas',$respuesta_eva);
 
         view()->share('respuestas', $respuesta_eva);
-        $pdf = PDF::loadView('empleado.pdf', $respuesta_eva);
-        return $pdf->download('archivo-pdf.pdf');
+        //$pdf = PDF::loadView('empleado.pdf', $respuesta_eva);
+        //return $pdf->download('archivo-pdf.pdf');
         return view('empleado.pdf')->with('respuestas', $respuesta_eva);
     }
 
@@ -148,7 +148,10 @@ class EmpleadoController extends Controller
         } else if ($request->isMethod('post')) {
             $actualizar = DB::update("UPDATE
         empleado
-        SET direccion='$request->direccion',
+        SET 
+        cargo='$request->cargo',
+        grupo='$request->grupo',
+        direccion='$request->direccion',
         celular='$request->celular',
         correo='$request->correo',
         edad='$request->edad',

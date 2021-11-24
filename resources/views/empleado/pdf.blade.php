@@ -18,8 +18,8 @@
 
     p{
         font-family: 'Oswald', sans-serif;
-	text-align: center;
-    font-size: 12pt;
+        text-align: center;
+        font-size: 15pt;
     }
     p.si{
         font-family: 'Oswald', sans-serif;
@@ -40,6 +40,11 @@
         text-align: center;
         margin: 30px 0px 30px 0px;
     }
+    h3.si{
+        font-family: 'Oswald', sans-serif;
+        text-align:center;
+        font-size: 17pt;
+    }
     
 </style>
 
@@ -48,25 +53,30 @@
     <h1 class="titulo">Evaluacion de Desempeño.</h1> <br/>        
     <table>
         <tr>
-        <p class="si">EVALUADO:</p>
-        <p> {{$respuestas[0]->evaluado}}</p>
+        <h3 class="si">EVALUADO:</h3>
+        <p > {{$respuestas[0]->evaluado}}</p>
         </tr>
        <br/>
        <br/>
        <tr>
-        <p class="si">DEPARTAMENTO/ÁREA: </p>
+        <h3 class="si">DEPARTAMENTO/ÁREA: </h3>
         <p > {{$respuestas[0]->grupo_pregunta}} </p>
        </tr>
        <br/>
        <tr>
-        <p class="si">FECHA DE EVALUACIÓN: </p>
+        <h3 class="si">FECHA DE EVALUACIÓN: </h3>
         <p> {{$respuestas[0]->fecha}} </p>
        </tr>
        <br/>
        <tr>
-        <p class="si">EVALUADOR</p>
+        <h3 class="si">EVALUADOR</h3>
         <p> {{$respuestas[0]->evaluador}} </p>
        </tr>
+       <br/>
+       <tr>
+        <h3 class="si">PROMEDIO</h3>
+        <p> {{$respuestas[0]->puntajevaluacion_pregunta/3}} </p>
+        </tr>
        <br/>
        <br/>
        <tr>
@@ -84,9 +94,6 @@
                 <p class="bren">{!! $pregunta->puntajevaluacion_pregunta !!}</p>
             </div>
     @endforeach
-        <tr>
-            <p class="si">PROMEDIO</p>
-            <p> {{$respuestas[0]->puntajevaluacion_pregunta}}/ </p>
-        </tr>
+        
 
     <br/><br/><hr class="hr"/><br/>

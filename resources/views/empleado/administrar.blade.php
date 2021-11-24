@@ -50,15 +50,11 @@
 
         <br><br>
 
-        <?php echo '<a href="/admin/editar_preguntas"  class="but">Editar Preguntas Especificas</a>'; ?>
-
-        <br><br>
-
         <?php echo '<a href="/empleado/excel"  class="but">Matriz de Datos</a>'; ?>
 
         <br><br>
 
-        <?php // echo '<a href="profile.php?action=excel"  class="but">Generar Matriz Excel</a>'; ?>
+        <?php echo '<a href="/empleado/excel"  class="but">Generar Matriz Excel</a>'; ?>
 
 
     </body>

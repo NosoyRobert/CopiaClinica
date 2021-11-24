@@ -29,7 +29,22 @@
         <br>
         <br>
         </div>
-    </form>
 
+    
+        <table width="80%" class="tablita"> 
+
+        <tr>
+            <td><p class="center">Nombre:</p></td>
+            <td><p class="center">Cedula:</p></td>
+            <td><p class="center">Grupo:</p></td>
+
+        </tr>
+        
+        
+
+        </table>
+        
+    
+</form>
 
 @endsection

@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use PDF;
-use Excel;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\UsersExport;
 
 class AdministradorController extends Controller
 {
@@ -172,13 +173,6 @@ class AdministradorController extends Controller
         }
     }
 
-    public function export()
-    {
-        /*Excel::create('Filename', function($excel) {
-
-        })->export('xls');*/
-    }
-
     function impo_preguntas(Request $request)
     {
         $file = $request->archivo->getClientOriginalName();
@@ -311,5 +305,23 @@ class AdministradorController extends Controller
             return $resultado[0]->tipo_evaluacion;
         }return null;
 
+    }
+
+    public function Buscar_grupo($GR)
+    {
+        $grupos = DB::select("SELECT 
+        em.nombrecom as nombre,
+        em.documento as cedula,
+        g.nombre as grupo
+        FROM talentoh.empleado em
+        INNER JOIN grupo g ON g.id = em.grupo
+        WHERE g.id = ?", [$GR]);
+
+        return view('empledo.buscar')->with('grupos', $grupos);
+    }
+
+    public function export() 
+    {
+        //return Excel::download(new UsersExport, 'users.xlsx');
     }
 }

@@ -83,8 +83,8 @@
   table, th, td, caption {
     margin-left: auto; 
     margin-right: auto;
-   border: 2px solid black;
-   border-collapse: collapse;
+    border: 2px solid black;
+    border-collapse: collapse;
  }
       header
       {
@@ -488,4 +488,11 @@
     font-family: 'Oswald', sans-serif;
 	text-align: center;
     font-size: 20pt; 
+}
+
+th{
+  text-align: center;
+  color: black;
+  font-size: 20px;
+  
 }

@@ -15,7 +15,23 @@
             <h3 class="sex">DATOS PERSONALES:</h3>
 
 
-            <br>
+            <!--  CARGO -->
+
+
+			<p class="bren">CARGO:  </p>
+            <input class="field" type="text" id="cargo" name="cargo" placeholder="Cargo" value="{{$perfil->cargo_empleado}}">
+
+			<br>
+			<br>
+
+			<!--  Grupo -->
+
+
+			<p class="bren">GRUPO:  </p>
+            <input class="field" type="text" id="grupo" name="grupo" placeholder="Grupo" value="{{$perfil->grupo_empleado}}">
+
+			<br>
+			<br>
 
             <!--  celular -->
 
