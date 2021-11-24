@@ -7,11 +7,8 @@
 @section('content')
 
     <?php echo '<a href="/empleado/administrar"  class="but">Volver</a>'; ?>
-    <BR><BR><BR><BR><BR><BR>
 
-    <h2>IMPORTAR BASE DE DATOS</h2>
-
-    <form action="/admin/importar/procesar" class="formulariocompleto" method="post" enctype="multipart/form-data">
+    <form action="/admin/impo_preguntas/procesar" class="formulariocompleto" method="post" enctype="multipart/form-data">
         @csrf
         <input type="file" name="archivo" class="form-control"/>
         <input type="submit" class="form-control" name="enviar">

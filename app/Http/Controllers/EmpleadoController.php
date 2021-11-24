@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use PDF;
+use Barryvdh\DomPDF\PDF;
 
 class EmpleadoController extends Controller
 {
@@ -45,8 +45,8 @@ class EmpleadoController extends Controller
         gp.nombre as grupo_pregunta
         FROM evaluacion e
         INNER JOIN tipo_evaluacion tp ON tp.id = e.tp_evaluado
-        INNER JOIN evaluacion_pregunta ep ON ep.id_tipoevaluacion = tp.id
-        INNER JOIN pregunta p ON ep.id_preguntas = p.id
+        INNER JOIN tipo_evaluacion_pregunta ep ON ep.tipo_evaluacion = tp.id
+        INNER JOIN pregunta p ON ep.pregunta = p.id
         INNER JOIN grupo_pregunta gp ON gp.id = p.grupo_pregunta
         WHERE e.id = ? ORDER BY gp.id, p.id', [$id]);
         return view('empleado.evaluacion')->with('preguntas', $resultado)->with('evaluacion', $id);
@@ -61,8 +61,8 @@ class EmpleadoController extends Controller
         gp.nombre as grupo_pregunta
         FROM evaluacion e
         INNER JOIN tipo_evaluacion tp ON tp.id = e.tp_evaluado
-        INNER JOIN evaluacion_pregunta ep ON ep.id_tipoevaluacion = tp.id
-        INNER JOIN pregunta p ON ep.id_preguntas = p.id
+        INNER JOIN tipo_evaluacion_pregunta ep ON ep.tipo_evaluacion = tp.id
+        INNER JOIN pregunta p ON ep.pregunta = p.id
         INNER JOIN grupo_pregunta gp ON gp.id = p.grupo_pregunta
         WHERE e.id = ? ORDER BY gp.id, p.id', [$id]);
 
@@ -87,9 +87,9 @@ class EmpleadoController extends Controller
         r.valor as puntajevaluacion_pregunta
         FROM talentoh.respuesta_pregunta r
         INNER JOIN evaluacion e ON e.id = r.evaluacion
-        INNER JOIN evaluacion_pregunta ep ON ep.id = r.evaluacion_pregunta
-        INNER JOIN pregunta p ON p.id = ep.id_preguntas
-        INNER JOIN tipo_evaluacion te ON te.id = ep.id_tipoevaluacion
+        INNER JOIN tipo_evaluacion_pregunta ep ON ep.id = r.evaluacion_pregunta
+        INNER JOIN pregunta p ON p.id = ep.pregunta
+        INNER JOIN tipo_evaluacion te ON te.id = ep.tipo_evaluacion
         INNER JOIN grupo_pregunta gp ON gp.id = p.grupo_pregunta
         INNER JOIN empleado e1 ON e.evaluado = e1.id
         INNER JOIN empleado e2 ON e.evaluador = e2.id
@@ -110,18 +110,18 @@ class EmpleadoController extends Controller
         r.fecha as fecha
         FROM talentoh.respuesta_pregunta r
         INNER JOIN evaluacion e ON e.id = r.evaluacion
-        INNER JOIN evaluacion_pregunta ep ON ep.id = r.evaluacion_pregunta
-        INNER JOIN pregunta p ON p.id = ep.id_preguntas
-        INNER JOIN tipo_evaluacion te ON te.id = ep.id_tipoevaluacion
+        INNER JOIN tipo_evaluacion_pregunta ep ON ep.id = r.evaluacion_pregunta
+        INNER JOIN pregunta p ON p.id = ep.pregunta
+        INNER JOIN tipo_evaluacion te ON te.id = ep.tipo_evaluacion
         INNER JOIN grupo_pregunta gp ON gp.id = p.grupo_pregunta
         INNER JOIN empleado e1 ON e.evaluado = e1.id
         INNER JOIN empleado e2 ON e.evaluador = e2.id
         WHERE e.id = ?', [$id]);
         //return view('empleado.respuesta')->with('respuestas',$respuesta_eva);
 
-        //view()->share('respuestas', $respuesta_eva);
-        //$pdf = PDF::loadView('empleado.pdf', $respuesta_eva);
-        //return $pdf->download('archivo-pdf.pdf');
+        view()->share('respuestas', $respuesta_eva);
+        $pdf = PDF::loadView('empleado.pdf', $respuesta_eva);
+        return $pdf->download('archivo-pdf.pdf');
         return view('empleado.pdf')->with('respuestas', $respuesta_eva);
     }
 
@@ -204,9 +204,8 @@ class EmpleadoController extends Controller
         if ($request->isMethod('get')) {
             return view('empleado.buscar');
         } else if ($request->isMethod('post')) {
-
-        $mostrar = $this->getDatosEmpleado($request->documento);
-        return view('empleado.perfil')->with('perfil', $mostrar);
+            $mostrar = $this->getDatosEmpleado($request->documento);
+            return view('empleado.perfil')->with('perfil', $mostrar);
         }
     }
 

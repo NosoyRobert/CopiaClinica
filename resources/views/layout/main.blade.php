@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8"> 
 	<title>Clinica Meta</title>
-	<link rel="shortcut icon" href="img/favicon1.png">
+	<link rel="shortcut icon" href="{{URL::asset('img/favicon1.png')}}">
 <link rel="stylesheet" href="{{ asset('css/app.css') }}">    
 	@section('css')
 		
@@ -14,7 +14,7 @@
 </head>
 <body>
 	<header>
-		<img src="img/CN1.png" alt="logo Clinica Meta" width="800" height="200">
+		<img src="{{URL::asset('img/CN1.png')}}" alt="logo Clinica Meta" width="800" height="200">
 		<br>
 	</header>	
 	@if (Auth::check())

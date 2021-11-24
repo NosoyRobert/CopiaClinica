@@ -1,5 +1,5 @@
 <style>
-    h1.titulo{
+    h1{
         font-family: 'Oswald', sans-serif;
 	font-weight:200	;
 	text-transform:uppercase;
@@ -10,6 +10,10 @@
     font-size: 35pt;
     text-align: center;
     margin: 30px 0px 30px 0px;
+    }
+
+    h1.titulo{
+        text-align: center;
     }
 
     p{
@@ -24,7 +28,7 @@
     }
  
 
-    h3{
+    h3.sex{
         font-family: 'Oswald', sans-serif;
         font-weight:200	;
         text-transform:uppercase;
@@ -38,6 +42,8 @@
     }
     
 </style>
+
+    <?php $num = 0;?>
 
     <h1 class="titulo">Evaluacion de Desempeño.</h1> <br/>        
     <table>
@@ -78,5 +84,9 @@
                 <p class="bren">{!! $pregunta->puntajevaluacion_pregunta !!}</p>
             </div>
     @endforeach
+        <tr>
+            <p class="si">PROMEDIO</p>
+            <p> {{$respuestas[0]->puntajevaluacion_pregunta}}/ </p>
+        </tr>
 
     <br/><br/><hr class="hr"/><br/>
