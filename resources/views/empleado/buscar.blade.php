@@ -40,7 +40,11 @@
 
         </tr>
         
-        
+        <tr>
+            <td><p class="center">{!! $grupos[0]->nombre !!}</p></td>
+            <td><p class="center">{!! $grupos[0]->cedula !!}</p></td>
+            <td><p class="center">{!! $grupos[0]->grupo !!}</p></td>
+        </tr>
 
         </table>
         

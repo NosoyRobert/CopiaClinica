@@ -37,7 +37,10 @@
 
 
 </body>
+<footer>	
+	<hr>
+	<h3>EVALUACION DE DESEMPEÑO</h3><br/>
+	<h3>CLINICA META</h3>
+	&copy; <h2><?php echo date("Y"); ?></h2>
+</footer>
 </html>
-
-
-

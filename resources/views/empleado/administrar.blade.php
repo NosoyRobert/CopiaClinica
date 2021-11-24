@@ -25,16 +25,12 @@
         <?php echo '<a href="/empleado/buscar"  class="but">Buscar</a>'; ?>
 
         <br><br>
-        
-        <?php echo '<a href="/admin/eliminar"  class="but">Eliminar</a>'; ?>
-
-        <br><br>
 
         <?php echo '<a href="/admin/intentos"  class="but">Borrar intentos</a>'; ?>
 
         <br><br>
 
-        <?php // echo '<a href="profile.php?action=resultados"  class="but">Exportar Resultados</a>'; ?>
+        <?php echo '<a href="/admin/exp_resultados"  class="but">Exportar Resultados</a>'; ?>
 
         <br><br>
 
@@ -54,7 +50,7 @@
 
         <br><br>
 
-        <?php echo '<a href="/empleado/excel"  class="but">Generar Matriz Excel</a>'; ?>
+        <?php echo '<a href="/empleado/matriz"  class="but">Generar Matriz Excel</a>'; ?>
 
 
     </body>

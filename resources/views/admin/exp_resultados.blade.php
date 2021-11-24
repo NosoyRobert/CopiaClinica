@@ -6,12 +6,14 @@
 
 @section('content')
 
-    <form method="POST">
+    <?php echo '<a href="/empleado/administrar"  class="but">Volver</a>'; ?>
+
+    <form method="POST" action="/admin/exp_resultados">
         @csrf
         <h1 class="titulo">Resultados de Evaluacion</h1>
         <div class="section">
         <h3>Resultados por Cedula:  </h3>
-        <input class="field" type="text" ID="id_A" name="id_A" placeholder="Ingrese una A antes de la cedula">
+        <input class="field" type="text" ID="id_A" name="id_A" placeholder="Ingrese una cedula">
 
         <br>
         <br>
