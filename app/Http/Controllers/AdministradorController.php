@@ -27,9 +27,10 @@ class AdministradorController extends Controller
     public function registrar(Request $request)
     {
         $grupos = DB::select("select * from grupo");
+        $cargos = DB::select("select * from cargo");
 
         if ($request->isMethod('get')) {
-            return view('empleado.registrar')->with('grupos', $grupos);
+            return view('empleado.registrar')->with('grupos', $grupos)->with('cargos',$cargos);
         } else if ($request->isMethod('post')) {
             $registrar = DB::insert("INSERT INTO
         empleado(documento,nombrecom,cargo,grupo)
