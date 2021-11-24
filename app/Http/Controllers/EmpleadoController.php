@@ -148,7 +148,10 @@ class EmpleadoController extends Controller
         } else if ($request->isMethod('post')) {
             $actualizar = DB::update("UPDATE
         empleado
-        SET direccion='$request->direccion',
+        SET 
+        cargo='$request->cargo',
+        grupo='$request->grupo',
+        direccion='$request->direccion',
         celular='$request->celular',
         correo='$request->correo',
         edad='$request->edad',
