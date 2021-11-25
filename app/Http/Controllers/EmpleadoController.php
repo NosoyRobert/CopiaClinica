@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class EmpleadoController extends Controller
 {
@@ -118,11 +118,11 @@ class EmpleadoController extends Controller
         INNER JOIN empleado e2 ON e.evaluador = e2.id
         WHERE e.id = ?', [$id]);
         //return view('empleado.respuesta')->with('respuestas',$respuesta_eva);
-
-        view()->share('respuestas', $respuesta_eva);
+        //view()->share('respuestas', $respuesta_eva);
         //$pdf = PDF::loadView('empleado.pdf', $respuesta_eva);
+        return PDF::loadView('empleado.pdf', ["respuestas"=>$respuesta_eva])->stream('archivo.pdf');
         //return $pdf->download('archivo-pdf.pdf');
-        return view('empleado.pdf')->with('respuestas', $respuesta_eva);
+        //return view('empleado.pdf')->with('respuestas', $respuesta_eva);
     }
 
     public function actualizar(Request $request)
@@ -148,7 +148,7 @@ class EmpleadoController extends Controller
         } else if ($request->isMethod('post')) {
             $actualizar = DB::update("UPDATE
         empleado
-        SET 
+        SET
         cargo='$request->cargo',
         grupo='$request->grupo',
         direccion='$request->direccion',
