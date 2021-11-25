@@ -50,6 +50,10 @@
 
 </style>
 {{ $grupo = null }}
+<table>
+
+
+</table>
 @foreach ($respuestas as $pregunta)
     @if ($grupo != $pregunta->grupo_pregunta)
         <h3 class="sex">{{ $grupo = $pregunta->grupo_pregunta }}</h3>

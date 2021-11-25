@@ -220,7 +220,7 @@ class AdministradorController extends Controller
     {
         $editar = DB::select("SELECT
         descripcion
-        FROM talentoh.pregunta 
+        FROM talentoh.pregunta
         where grupo_pregunta = ?", [$request->ID]);
 
         return view('admin.editar_preguntas')->with('editar', $editar);
@@ -233,19 +233,19 @@ class AdministradorController extends Controller
         $respuesta['actualizados']=null;
         if ($request->isMethod('post')) {
             if ($request->input('N_ID') != null) {
-                
+
                 $update = " UPDATE evaluacion ev
                             INNER JOIN empleado em ON em.id = ev.evaluador
                             SET ev.evaluador = ?
                             WHERE em.documento = ?";
-                            
+
                 $select = "SELECT * FROM empleado WHERE documento = ?";
-                $idNuevoEvaluador =  DB::table('empleado')->where('documento', $request->N_ID)->value('id');    
+                $idNuevoEvaluador =  DB::table('empleado')->where('documento', $request->N_ID)->value('id');
                 $actualizados = DB::update($update,[$idNuevoEvaluador,$request->ID]) ;
                 $respuesta['actualizados']=$actualizados;
             } else {
                 $respuesta['hayDatos'] = true;
-                $evaluaciones = DB::select("SELECT ev.*, 
+                $evaluaciones = DB::select("SELECT ev.*,
                                             em.nombrecom as nombre_evaluado,
                                             em.documento as cc_evaluado,
                                             em2.nombrecom as nombre_evaluador,
@@ -254,17 +254,17 @@ class AdministradorController extends Controller
                                          INNER JOIN empleado em ON em.id = ev.evaluado
                                          INNER JOIN empleado em2 ON em2.id = ev.evaluador
                                         WHERE em2.documento = ?", [$request->ID]);
-                $respuesta['evaluaciones'] = $evaluaciones;          
+                $respuesta['evaluaciones'] = $evaluaciones;
                 $respuesta['ID']=$request->ID;
                 }
             }
             $respuesta = (object)$respuesta;
-            return view('admin.camb_eva')->with('respuesta', $respuesta);        
+            return view('admin.camb_eva')->with('respuesta', $respuesta);
     }
 
     public function asignarEvaluaciones(Request $request){
 
-    
+
         $file = $request->archivo->getClientOriginalName();
         $path = $request->file('archivo')->storeAs('uploads', $file, 'public');
         $conn = Storage::disk('public');
@@ -277,8 +277,8 @@ class AdministradorController extends Controller
             for($i=1;$i<count($datos);$i++){
                 $evaluador = $datos[0];
                 $evaluado =$datos[$i];
-                $idEvaluador = DB::table('empleado')->where('documento', $evaluador)->value('id');  
-                $idEvaluado =   DB::table('empleado')->where('documento', $evaluado)->value('id');  
+                $idEvaluador = DB::table('empleado')->where('documento', $evaluador)->value('id');
+                $idEvaluado =   DB::table('empleado')->where('documento', $evaluado)->value('id');
                 echo $evaluado."-".$idEvaluado."<br/>";
                /* $tipoEvaluacion = $this->obtenerTipoEvalucion($evaluado);
                 if($tipoEvaluacion!=null){
@@ -296,9 +296,9 @@ class AdministradorController extends Controller
     }
 
     public function obtenerTipoEvalucion($documentoEmpleado){
-        $sql = "SELECT 
+        $sql = "SELECT
         tp.id as tipo_evaluacion
-        FROM talentoh.empleado e 
+        FROM talentoh.empleado e
         inner JOIN cargo c ON c.id = e.cargo
         INNER JOIN grupo g ON g.id = e.grupo
         INNER JOIN tipo_evaluacion tp ON concat (c.descripcion) = tp.nombre
@@ -312,7 +312,7 @@ class AdministradorController extends Controller
 
     public function Buscar_grupo(Request $request)
     {
-        $grupos = DB::select("SELECT 
+        $grupos = DB::select("SELECT
         em.nombrecom as nombre,
         em.documento as cedula,
         g.nombre as grupo
@@ -324,14 +324,14 @@ class AdministradorController extends Controller
         return view('empleado.buscar')->with('grupos', $grupos);
     }
 
-    public function export() 
+    public function export()
     {
         return Excel::download(new DatosExport, 'Datos.xlsx');
 
         return view('empleado.administrar');
     }
 
-    public function matriz() 
+    public function matriz()
     {
         return Excel::download(new MatrizExport, 'Matriz.xlsx');
 
@@ -343,6 +343,8 @@ class AdministradorController extends Controller
         $respuesta = DB::select('SELECT
         e1.nombrecom as evaluado,
         e1.documento as cedula,
+        c.descripcion as cargo,
+        g.nombre as grupo_empleado,
         te.nombre as tipo_evaluacion,
         gp.nombre as grupo_pregunta,
         p.descripcion as pregunta,
@@ -356,8 +358,10 @@ class AdministradorController extends Controller
         INNER JOIN tipo_evaluacion te ON te.id = ep.tipo_evaluacion
         INNER JOIN grupo_pregunta gp ON gp.id = p.grupo_pregunta
         INNER JOIN empleado e1 ON e.evaluado = e1.id
+        INNER JOIN cargo c ON c.id = e1.cargo
+        INNER JOIN grupo g ON g.id = e1.grupo
         WHERE e1.documento = ?
-        group by 
+        group by
         e1.nombrecom ,
         e1.documento,
         te.nombre ,
