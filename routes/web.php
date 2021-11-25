@@ -80,6 +80,10 @@ Route::post('/admin/impo_preguntas/procesar', [AdministradorController::class, '
 //ruta preguntas
 Route::match(['post'],'/admin/impo_preguntas', [AdministradorController::class, 'impo_preguntas']);
 
+Route::get('/admin/exp_resultados', [AdministradorController::class, 'expo_resultados']);
+
+Route::post('/admin/exp_resultados', [AdministradorController::class, 'expo_resultados']);
+
 //ruta mostrar
 Route::get('/admin/mostrar', [AdministradorController::class, 'mostrar']);
 
@@ -98,3 +102,5 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/empleado/excel', [AdministradorController::class, 'export']);
+
+Route::get('/empleado/matriz', [AdministradorController::class, 'matriz']);

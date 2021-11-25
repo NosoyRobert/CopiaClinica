@@ -7,6 +7,7 @@
     <div>
         <h2> <?php echo 'DATOS PERSONALES'; ?> </h2>
         <div>
+            <br>
             <p>
             <table style="width:50%" class="center">
                 <tr>

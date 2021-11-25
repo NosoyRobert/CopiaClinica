@@ -173,6 +173,7 @@
      margin-right: auto;
     border: 2px solid black;
     border-collapse: collapse;
+    background: white;
   }
   
   td.black{

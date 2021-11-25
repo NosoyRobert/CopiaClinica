@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DatosExport;
 use App\Exports\EmpleadoExport;
+use App\Exports\MatrizExport;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -25,9 +27,10 @@ class AdministradorController extends Controller
     public function registrar(Request $request)
     {
         $grupos = DB::select("select * from grupo");
+        $cargos = DB::select("select * from cargo");
 
         if ($request->isMethod('get')) {
-            return view('empleado.registrar')->with('grupos', $grupos);
+            return view('empleado.registrar')->with('grupos', $grupos)->with('cargos',$cargos);
         } else if ($request->isMethod('post')) {
             $registrar = DB::insert("INSERT INTO
         empleado(documento,nombrecom,cargo,grupo)
@@ -322,6 +325,36 @@ class AdministradorController extends Controller
 
     public function export() 
     {
-        //return Excel::download(new UsersExport, 'users.xlsx');
+        return Excel::download(new DatosExport, 'Datos.xlsx');
+
+        return view('empleado.administrar');
+    }
+
+    public function matriz() 
+    {
+        return Excel::download(new MatrizExport, 'Matriz.xlsx');
+
+        return view('empleado.administrar');
+    }
+
+    public function expo_resultados($id_A)
+    {
+        $respuesta = DB::select('SELECT
+        e.id as evaluacion,
+        e1.nombrecom as evaluado,
+        te.nombre as tipo_evaluacion,
+        gp.nombre as grupo_pregunta,
+        p.descripcion as pregunta,
+        r.valor as puntajevaluacion_pregunta
+        FROM talentoh.respuesta_pregunta r
+        INNER JOIN evaluacion e ON e.id = r.evaluacion
+        INNER JOIN tipo_evaluacion_pregunta ep ON ep.id = r.evaluacion_pregunta
+        INNER JOIN pregunta p ON p.id = ep.pregunta
+        INNER JOIN tipo_evaluacion te ON te.id = ep.tipo_evaluacion
+        INNER JOIN grupo_pregunta gp ON gp.id = p.grupo_pregunta
+        INNER JOIN empleado e1 ON e.evaluado = e1.id
+        WHERE e.id = ?', [$id_A]);
+        
+        return view('empleado.exp_resultados')->with('expo_resultados', $respuesta);
     }
 }

@@ -212,5 +212,7 @@ class EmpleadoController extends Controller
         }
     }
 
+    
+
 
 }

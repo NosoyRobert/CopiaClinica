@@ -44,12 +44,13 @@
 
 
                 <p class="bren";>GRUPO - AREA:  </p>
-                <select class="field" id="grupo" name="grupo" placeholder="Grupo-Area">
-                    @foreach ($grupos as $grupo)
-                        <option value="{{$grupo->id}}">{{$grupo->nombre}}</option>
-                    @endforeach
-                </select>
-                
+                <div class="caja">
+                    <select class="field" id="grupo" name="grupo" placeholder="Grupo-Area">
+                        @foreach ($grupos as $grupo)
+                            <option value="{{$grupo->id}}">{{$grupo->nombre}}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <br>
                 <br>
 
@@ -57,9 +58,13 @@
 
 
                 <p class="bren";>CARGO:  </p>
-                <input class="field" type="text" id="cargo" name="cargo" placeholder="Cargo que ocupa">
-
-
+                <div class="caja">
+                    <select class="field" id="cargo" name="cargo" placeholder="CARGO">
+                        @foreach ($cargos as $cargo)
+                            <option value="{{$cargo->id}}">{{$cargo->descripcion}}</option>
+                        @endforeach
+                    </select>
+                </div>
 
                 <br><br><br>
 
