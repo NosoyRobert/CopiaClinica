@@ -366,7 +366,9 @@ class AdministradorController extends Controller
         e1.documento,
         te.nombre ,
         gp.nombre ,
-        p.descripcion' ,[$request->ID]
+        p.descripcion,
+        c.descripcion,
+        g.nombre' ,[$request->ID]
         );
         //return PDF::loadView('admin.pdf', ["respuestas"=>$respuesta])->stream('archivo.pdf');
         return view('admin.exp_resultados')->with('respuesta', $respuesta);

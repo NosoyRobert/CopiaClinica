@@ -29,6 +29,8 @@
         </div>
         <hr class="hr">
         {{ $grupo = null }}
+        @php($numeroPregunta=0)
+        @php($promedioTotal=0)
         <table style="margin-top: 5px">
             <thead>
                 <th>Pregunta</th>
@@ -36,6 +38,8 @@
             </thead>
             <tbody>
                 @foreach ($respuesta as $pregunta)
+                @php ($numeroPregunta++)
+                @php ($promedioTotal=$promedioTotal+$pregunta->promedio)
                     <tr>
                         <td colspan="2">
                             @if ($grupo != $pregunta->grupo_pregunta)
@@ -45,7 +49,7 @@
                     </tr>
                     <tr>
                         <td>
-                            {!! $pregunta->pregunta !!}
+                            {{$numeroPregunta}} - {!! $pregunta->pregunta !!}
                         </td>
                         <td>
                             {!! $pregunta->promedio !!}
@@ -56,7 +60,7 @@
             <tfoot>
                <tr>
                    <td><b>Total final evaluacion</b></td>
-                   <td><b>{{$respuesta[0]->promedio}}</b></td>
+                   <td><b>{{$promedioTotal/$numeroPregunta}}</b></td>
                 </tr>
             </tfoot>
         </table>
