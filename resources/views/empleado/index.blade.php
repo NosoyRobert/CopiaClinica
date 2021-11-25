@@ -34,7 +34,7 @@
                     </thead>
                     <tbody>
                         @foreach($evaluaciones as $evaluacion)
-                            <tr>
+                            <tr>                                
                                 <td>{!! $evaluacion->id !!}</td>
                                 <td>{!! $evaluacion->evaluador !!}</td>
                                 <td>{!! $evaluacion->evaluador_documento !!}</td>
@@ -64,31 +64,7 @@
             <br/>
             <br/>
             <br/>
-            <hr/>
-            <br/>
-            <br/>
-            <div>
-                <h2> <?php echo "INFORMACION DE EVALUACIÓN"; ?> </h2>
-                <div>
-                <br/>
-                <br/>
-                <p>
-            
-                    <table style="width:40%" class="center">	
-                        <tr>
-                            <td><h3> NOTA FINAL: </h3> </td>
-                            <td><h3></h3></td>
-                        </tr>
-                        <tr>
-                            <td><h3> TOTAL EVALUADORES: </h3> </td>
-                            <td ><h3> </h3></td>
-                        </table>
-                </p>
-                <p>
-                </p>
-                </div>
-            </div>
-
+            <hr/>         
 
 
         </div>

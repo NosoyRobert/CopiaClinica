@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsersExport;
 
@@ -310,7 +310,7 @@ class AdministradorController extends Controller
 
     }
 
-    public function Buscar_grupo($GR)
+    public function Buscar_grupo(Request $request)
     {
         $grupos = DB::select("SELECT 
         em.nombrecom as nombre,
@@ -318,9 +318,10 @@ class AdministradorController extends Controller
         g.nombre as grupo
         FROM talentoh.empleado em
         INNER JOIN grupo g ON g.id = em.grupo
-        WHERE g.id = ?", [$GR]);
+        WHERE g.nombre = ?", [$request->GR]);
 
-        return view('empledo.buscar')->with('grupos', $grupos);
+
+        return view('empleado.buscar')->with('grupos', $grupos);
     }
 
     public function export() 
@@ -340,13 +341,14 @@ class AdministradorController extends Controller
     public function expo_resultados(Request $request)
     {
         $respuesta = DB::select('SELECT
-        e.id as evaluacion,
         e1.nombrecom as evaluado,
         e1.documento as cedula,
         te.nombre as tipo_evaluacion,
         gp.nombre as grupo_pregunta,
         p.descripcion as pregunta,
-        r.valor as puntajevaluacion_pregunta
+        COUNT(e.id) as numero_evaluaciones,
+        sum(r.valor) as puntajevaluacion_pregunta,
+        avg(r.valor) as promedio
         FROM talentoh.respuesta_pregunta r
         INNER JOIN evaluacion e ON e.id = r.evaluacion
         INNER JOIN tipo_evaluacion_pregunta ep ON ep.id = r.evaluacion_pregunta
@@ -354,8 +356,16 @@ class AdministradorController extends Controller
         INNER JOIN tipo_evaluacion te ON te.id = ep.tipo_evaluacion
         INNER JOIN grupo_pregunta gp ON gp.id = p.grupo_pregunta
         INNER JOIN empleado e1 ON e.evaluado = e1.id
-        WHERE e.id = ?', [$request->ID]);
-        
-        return view('admin.exp_resultados')->with('expo_resultados', $respuesta);
+        WHERE e1.documento = ?
+        group by 
+        e1.nombrecom ,
+        e1.documento,
+        te.nombre ,
+        gp.nombre ,
+        p.descripcion' ,[$request->ID]
+        );
+        //return PDF::loadView('admin.pdf', ["respuestas"=>$respuesta])->stream('archivo.pdf');
+        return view('admin.exp_resultados')->with('respuesta', $respuesta);
     }
+
 }

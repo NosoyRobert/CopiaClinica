@@ -93,6 +93,8 @@ Route::match(['get', 'post'],'/empleado/importar', [AdministradorController::cla
 //match buscar
 Route::match(['get', 'post'],'/empleado/buscar', [EmpleadoController::class, 'buscar']);
 
+Route::match(['get', 'post'],'/empleado/buscar', [AdministradorController::class, 'Buscar_grupo']);
+
 Route::match(['get', 'post'],'/admin/editar_preguntas', [AdministradorController::class, 'editar_preguntas']);
 //match actualizar
 Route::match(['get', 'post'],'/empleado/actualizar', [EmpleadoController::class, 'actualizar']);

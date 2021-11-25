@@ -28,27 +28,28 @@
         <input type="submit" name="buscar">
         <br>
         <br>
-        </div>
+        </div>    
 
-    
-        <table width="80%" class="tablita"> 
-
-        <tr>
-            <td><p class="center">Nombre:</p></td>
-            <td><p class="center">Cedula:</p></td>
-            <td><p class="center">Grupo:</p></td>
-
-        </tr>
+        @if(count($grupos)>0)
+                <table width="80%" class="tablita"> 
+        <thead>
+            <tr>
+                <th><p class="center">Nombre:</p></th>
+                <th><p class="center">Cedula:</p></th>
+                <th><p class="center">Grupo:</p></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($grupos as $grupo)
+            <tr>
+                <td><p class="si">{!! $grupo->nombre!!}</p></td>
+                <td><p class="si">{!! $grupo->cedula!!}</p></td>
+                <td><p class="si">{!! $grupo->grupo!!}</p></td>
+            </tr>
+            @endforeach
+        </tbody>
         
-        <tr>
-            <td><p class="center">{!! $grupos[0]->nombre !!}</p></td>
-            <td><p class="center">{!! $grupos[0]->cedula !!}</p></td>
-            <td><p class="center">{!! $grupos[0]->grupo !!}</p></td>
-        </tr>
-
         </table>
-        
-    
-</form>
-
+@endif
+    </form> 
 @endsection
