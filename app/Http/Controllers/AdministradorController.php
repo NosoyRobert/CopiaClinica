@@ -56,8 +56,8 @@ class AdministradorController extends Controller
 
     public function eliminar(Request $request)
     {
-        $eliminar = DB::delete("DELETE FROM 
-        empleado WHERE 
+        $eliminar = DB::delete("DELETE FROM
+        empleado WHERE
         id = ?", [$request->ID]);
 
         return view('admin.eliminar')->with('eliminar', $eliminar);
@@ -65,9 +65,9 @@ class AdministradorController extends Controller
 
     public function intentos(Request $request)
     {
-        $intento = DB::delete("DELETE FROM 
-        respuesta_pregunta 
-        WHERE 
+        $intento = DB::delete("DELETE FROM
+        respuesta_pregunta
+        WHERE
         id = ?", [$request->ID]);
 
         return view('admin.intentos')->with('intento', $intento);
@@ -75,7 +75,7 @@ class AdministradorController extends Controller
 
     public function mostrar()
     {
-        $mostrar_empleados = DB::select("SELECT 
+        $mostrar_empleados = DB::select("SELECT
         em.documento as cedula,
         em.nombrecom as nombre_empleado,
         c.descripcion as cargo_empleado,

@@ -26,7 +26,7 @@ Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 Route::get('/empleado', [EmpleadoController::class, 'index'])->name('empleado');
 //ruta evaluaciones
 Route::get('/empleado/evaluacion/{id}', [EmpleadoController::class, 'evaluacion']);
-//guardar 
+//guardar
 Route::post('/empleado/evaluacion/guardar', [EmpleadoController::class, 'guardar']);
 //ruta respuestas
 Route::get('/empleado/evaluacion/respuesta/{id}', [EmpleadoController::class, 'respuesta']);
