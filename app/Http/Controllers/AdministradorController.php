@@ -337,11 +337,12 @@ class AdministradorController extends Controller
         return view('empleado.administrar');
     }
 
-    public function expo_resultados($id_A)
+    public function expo_resultados(Request $request)
     {
         $respuesta = DB::select('SELECT
         e.id as evaluacion,
         e1.nombrecom as evaluado,
+        e1.documento as cedula,
         te.nombre as tipo_evaluacion,
         gp.nombre as grupo_pregunta,
         p.descripcion as pregunta,
@@ -353,8 +354,8 @@ class AdministradorController extends Controller
         INNER JOIN tipo_evaluacion te ON te.id = ep.tipo_evaluacion
         INNER JOIN grupo_pregunta gp ON gp.id = p.grupo_pregunta
         INNER JOIN empleado e1 ON e.evaluado = e1.id
-        WHERE e.id = ?', [$id_A]);
+        WHERE e.id = ?', [$request->ID]);
         
-        return view('empleado.exp_resultados')->with('expo_resultados', $respuesta);
+        return view('admin.exp_resultados')->with('expo_resultados', $respuesta);
     }
 }

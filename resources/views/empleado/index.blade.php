@@ -21,6 +21,7 @@
                 <table class="table" name="table">
                     <thead>
                         <tr >
+                            <th>ID</th>
                             <th>NOMBRE</th>
                             <th>CEDULA</th>
                             <th>EVALUADO</th>
@@ -34,6 +35,7 @@
                     <tbody>
                         @foreach($evaluaciones as $evaluacion)
                             <tr>
+                                <td>{!! $evaluacion->id !!}</td>
                                 <td>{!! $evaluacion->evaluador !!}</td>
                                 <td>{!! $evaluacion->evaluador_documento !!}</td>
                                 <td>{!! $evaluacion->evaluado !!}</td>

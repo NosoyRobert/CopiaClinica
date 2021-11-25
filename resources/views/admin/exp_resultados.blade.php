@@ -13,7 +13,7 @@
         <h1 class="titulo">Resultados de Evaluacion</h1>
         <div class="section">
         <h3>Resultados por Cedula:  </h3>
-        <input class="field" type="text" ID="id_A" name="id_A" placeholder="Ingrese una cedula">
+        <input class="field" type="text" ID="ID" name="ID" placeholder="Ingrese una cedula">
 
         <br>
         <br>
