@@ -312,6 +312,16 @@ class AdministradorController extends Controller
 
     public function Buscar_grupo(Request $request)
     {
+
+        if ($request->isMethod('get')) {
+            return view('empleado.buscar');
+        } else if ($request->isMethod('post')) {
+
+            $mostrar = $this->getDatosEmpleado($request->documento);
+            return view('empleado.perfil')->with('perfil', $mostrar);
+        }
+
+
         $grupos = DB::select("SELECT
         em.nombrecom as nombre,
         em.documento as cedula,
@@ -370,8 +380,13 @@ class AdministradorController extends Controller
         c.descripcion,
         g.nombre' ,[$request->ID]
         );
+
+        if($request->input('submit')=='exportar'){
+            return PDF::loadView('admin._informe-evaluacion', ["respuesta"=>$respuesta])->setPaper('letter')->stream('archivo.pdf');
+        }
+
         //return PDF::loadView('admin.pdf', ["respuestas"=>$respuesta])->stream('archivo.pdf');
-        return view('admin.exp_resultados')->with('respuesta', $respuesta);
+        return view('admin.exp_resultados')->with('respuesta', $respuesta)->with('ID',$request->ID);
     }
 
 }
