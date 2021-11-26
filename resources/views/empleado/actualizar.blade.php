@@ -5,7 +5,7 @@
 @endsection
 @section('content')
 
-    <form method="POST" action="/empleado/actualizar/">
+    <form method="POST" action="/empleado/actualizar">
         @csrf
         <h1 class="titulo"> ACTUALIZACION </h1>
         <br>
