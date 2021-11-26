@@ -26,7 +26,11 @@
 
         <br><br>
 
-        <?php echo '<a href="/admin/intentos"  class="but">Borrar intentos</a>'; ?>
+        <?php echo '<a href="/admin/buscar_grupo"  class="but">Buscar por grupos</a>'; ?>
+
+        <br><br>
+
+        <?php echo '<a href="" class="but">Proximamente</a>' //echo '<a href="/admin/intentos"  class="but">Borrar intentos</a>'; ?>
 
         <br><br>
 
@@ -38,7 +42,7 @@
 
         <br><br>
 
-        <?php // echo '<a href="profile.php?action=Copia_seguridad"  class="but">Backup</a>'; ?>
+        <?php echo '<a href="" class="but">Proximamente</a>' //echo '<a href="profile.php?action=Copia_seguridad"  class="but">Backup</a>'; ?>
 
         <br><br>
 
@@ -52,6 +56,7 @@
 
         <?php echo '<a href="/empleado/matriz"  class="but">Generar Matriz Excel</a>'; ?>
 
+        <br/><br/>
 
     </body>
 
