@@ -382,7 +382,10 @@ class AdministradorController extends Controller
         c.descripcion,
         g.nombre' ,[$request->ID]
         );
-    }
+        if($request->input("submit")=="exportar"){
+            return PDF::loadView('admin._informe-evaluacion', ["respuesta"=>$respuesta,"ID"=>$request->ID])->stream('resultados.pdf');
+        }
+
         return view('admin.exp_resultados')->with('respuesta', $respuesta)->with('ID',$request->ID);
     }
 
