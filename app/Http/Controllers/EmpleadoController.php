@@ -149,11 +149,9 @@ class EmpleadoController extends Controller
             $actualizar = DB::update("UPDATE
                                     empleado
                                     SET
-                                    cargo='$request->cargo',
-                                    grupo='$request->grupo',
-                                    direccion='$request->direccion',
                                     celular='$request->celular',
                                     correo='$request->correo',
+                                    direccion='$request->direccion',
                                     edad='$request->edad',
                                     genero='$request->genero'
                                     WHERE id = ?", [Auth::user()->id]);

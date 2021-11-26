@@ -5,7 +5,7 @@
 @endsection
 @section('content')
 
-    <form method="POST" action="/empleado/actualizar/">
+    <form method="POST" action="/empleado/actualizar">
         @csrf
         <h1 class="titulo"> ACTUALIZACION </h1>
         <br>
@@ -19,7 +19,7 @@
 
 
 			<p class="bren">CARGO:  </p>
-            <input class="field" type="text" id="cargo" name="cargo" placeholder="Cargo" value="{{$perfil->cargo_empleado}}">
+            <input class="field" type="text" id="cargo" name="cargo" disabled placeholder="Cargo" value="{{$perfil->cargo_empleado}}">
 
 			<br>
 			<br>
@@ -28,7 +28,7 @@
 
 
 			<p class="bren">GRUPO:  </p>
-            <input class="field" type="text" id="grupo" name="grupo" placeholder="Grupo" value="{{$perfil->grupo_empleado}}">
+            <input class="field" type="text" id="grupo" name="grupo" disabled placeholder="Grupo" value="{{$perfil->grupo_empleado}}">
 
 			<br>
 			<br>
