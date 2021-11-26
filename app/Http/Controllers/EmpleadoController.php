@@ -117,12 +117,8 @@ class EmpleadoController extends Controller
         INNER JOIN empleado e1 ON e.evaluado = e1.id
         INNER JOIN empleado e2 ON e.evaluador = e2.id
         WHERE e.id = ?', [$id]);
-        //return view('empleado.respuesta')->with('respuestas',$respuesta_eva);
-        //view()->share('respuestas', $respuesta_eva);
-        //$pdf = PDF::loadView('empleado.pdf', $respuesta_eva);
         return PDF::loadView('empleado.pdf', ["respuestas"=>$respuesta_eva])->stream('archivo.pdf');
-        //return $pdf->download('archivo-pdf.pdf');
-        //return view('empleado.pdf')->with('respuestas', $respuesta_eva);
+
     }
 
     public function actualizar(Request $request)
@@ -147,15 +143,15 @@ class EmpleadoController extends Controller
             return view('empleado.actualizar')->with('perfil', $mostrar);
         } else if ($request->isMethod('post')) {
             $actualizar = DB::update("UPDATE
-                                    empleado
-                                    SET
-                                    celular='$request->celular',
-                                    correo='$request->correo',
-                                    direccion='$request->direccion',
-                                    edad='$request->edad',
-                                    genero='$request->genero'
-                                    WHERE id = ?", [Auth::user()->id]);
-                                }
+        empleado
+        SET
+        direccion='$request->direccion',
+        celular='$request->celular',
+        correo='$request->correo',
+        edad='$request->edad',
+        genero='$request->genero'
+        WHERE id = ?", [Auth::user()->id]);
+        }
         return  redirect('/empleado/perfil');
     }
 
@@ -209,4 +205,8 @@ class EmpleadoController extends Controller
             return view('empleado.perfil')->with('perfil', $mostrar);
         }
     }
+
+
+
+
 }
