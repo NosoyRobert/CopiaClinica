@@ -350,8 +350,7 @@ class AdministradorController extends Controller
 
     public function expo_resultados(Request $request)
     {
-        $respuesta=array();
-        if($request->isMethod('post')){
+        
         $respuesta = DB::select('SELECT
         e1.nombrecom as evaluado,
         e1.documento as cedula,
@@ -387,6 +386,7 @@ class AdministradorController extends Controller
         }
 
         return view('admin.exp_resultados')->with('respuesta', $respuesta)->with('ID',$request->ID);
-    }
+    
 
+}
 }
