@@ -50,20 +50,38 @@
 
 </style>
 {{ $grupo = null }}
-<table>
+@php($numeroPregunta=0)
+@php($promedioTotal=0)
 
-
-</table>
-@foreach ($respuestas as $pregunta)
-    @if ($grupo != $pregunta->grupo_pregunta)
-        <h3 class="sex">{{ $grupo = $pregunta->grupo_pregunta }}</h3>
-    @endif
     <div>
-        <p class="bren">{!! $pregunta->pregunta !!}</p>
-        <p class="bren">{!! $pregunta->puntajevaluacion_pregunta !!}</p>
+        Evaluado: {{$respuestas[0]->evaluado}}<br/>
+        Evaluador: {{$respuestas[0]->evaluador}}<br/>
+        Cargo: {{$respuestas[0]->tipo_evaluacion}}<br/>
     </div>
-@endforeach
-
-
-<br /><br />
-<hr class="hr" /><br />
+<hr/>
+<table  style="margin-top: 5px">
+    <thead>
+        <th>Pregunta:</th>
+        <th>Puntaje:</th>
+    </thead>
+    <tbody>
+        @foreach ($respuestas as $pregunta)
+        @php ($numeroPregunta++)
+        <tr>
+            <td colspan="2">
+                @if ($grupo != $pregunta->grupo_pregunta)
+                    {{ $grupo = $pregunta->grupo_pregunta }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {!! $pregunta->pregunta !!}
+            </td>
+            <td>
+                {!! $pregunta->puntajevaluacion_pregunta !!}
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>

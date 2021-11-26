@@ -66,6 +66,5 @@
         </table>
     </form>
     @endif
-    <a type="button" class="but" href="">EXPORTAR</a>
 
 @endsection

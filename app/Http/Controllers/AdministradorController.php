@@ -320,8 +320,7 @@ class AdministradorController extends Controller
         INNER JOIN grupo g ON g.id = em.grupo
         WHERE g.nombre = ?", [$request->GR]);
 
-
-        return view('empleado.buscar')->with('grupos', $grupos);
+        return view('admin.buscar_grupo')->with('grupos', $grupos);
     }
 
     public function export()
@@ -370,7 +369,7 @@ class AdministradorController extends Controller
         c.descripcion,
         g.nombre' ,[$request->ID]
         );
-        //return PDF::loadView('admin.pdf', ["respuestas"=>$respuesta])->stream('archivo.pdf');
+        return PDF::loadView('admin.pdf', ["respuestas"=>$respuesta])->stream('resultados.pdf');
         return view('admin.exp_resultados')->with('respuesta', $respuesta);
     }
 

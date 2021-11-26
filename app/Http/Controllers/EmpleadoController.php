@@ -147,17 +147,17 @@ class EmpleadoController extends Controller
             return view('empleado.actualizar')->with('perfil', $mostrar);
         } else if ($request->isMethod('post')) {
             $actualizar = DB::update("UPDATE
-        empleado
-        SET
-        cargo='$request->cargo',
-        grupo='$request->grupo',
-        direccion='$request->direccion',
-        celular='$request->celular',
-        correo='$request->correo',
-        edad='$request->edad',
-        genero='$request->genero'
-        WHERE id = ?", [Auth::user()->id]);
-        }
+                                    empleado
+                                    SET
+                                    cargo='$request->cargo',
+                                    grupo='$request->grupo',
+                                    direccion='$request->direccion',
+                                    celular='$request->celular',
+                                    correo='$request->correo',
+                                    edad='$request->edad',
+                                    genero='$request->genero'
+                                    WHERE id = ?", [Auth::user()->id]);
+                                }
         return  redirect('/empleado/perfil');
     }
 
@@ -211,8 +211,4 @@ class EmpleadoController extends Controller
             return view('empleado.perfil')->with('perfil', $mostrar);
         }
     }
-
-    
-
-
 }
