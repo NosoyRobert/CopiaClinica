@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade as PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsersExport;
+use FontLib\Table\Type\post;
 
 class AdministradorController extends Controller
 {
@@ -349,6 +350,8 @@ class AdministradorController extends Controller
 
     public function expo_resultados(Request $request)
     {
+        $respuesta=array();
+        if($request->isMethod('post')){
         $respuesta = DB::select('SELECT
         e1.nombrecom as evaluado,
         e1.documento as cedula,
@@ -379,8 +382,8 @@ class AdministradorController extends Controller
         c.descripcion,
         g.nombre' ,[$request->ID]
         );
-
-        return view('admin.exp_resultados')->with('respuesta', $respuesta);
+    }
+        return view('admin.exp_resultados')->with('respuesta', $respuesta)->with('ID',$request->ID);
     }
 
 }
