@@ -69,7 +69,9 @@ Route::get('/admin/impo_preguntas', function (){
 Route::match(['get', 'post'],'/admin/camb_eva', [AdministradorController::class, 'camb_eva']);
 //inactivar
 Route::get('/admin/empleado/inactivar/{cedula}/{estado}',[AdministradorController::class, 'inactivarEmpleado']);
-//importar
+//borrar intento
+Route::get('/admin/intentos/{evaluador_documento}/{estado_evaluacion}/{id}',[AdministradorController::class, 'borrar_intento']);
+//Importar 
 Route::post('/admin/importar/procesar', [AdministradorController::class, 'importar']);
 //evaluadores impo
 Route::post('/admin/impo_evaluadores/procesar', [AdministradorController::class, 'impo_evaluadores']);
@@ -79,22 +81,22 @@ Route::match(['post'],'/admin/impo_evaluadores', [AdministradorController::class
 Route::post('/admin/impo_preguntas/procesar', [AdministradorController::class, 'impo_preguntas']);
 //ruta preguntas
 Route::match(['post'],'/admin/impo_preguntas', [AdministradorController::class, 'impo_preguntas']);
-
+//exportar resultados
 Route::get('/admin/exp_resultados', [AdministradorController::class, 'expo_resultados']);
-
+//exportar resultados
 Route::post('/admin/exp_resultados', [AdministradorController::class, 'expo_resultados']);
 
 //ruta mostrar
 Route::get('/admin/mostrar', [AdministradorController::class, 'mostrar']);
-
+//exportar en excel
 Route::get('/admin/excel', [AdministradorController::class, 'export']);
 //match importa
 Route::match(['get', 'post'],'/empleado/importar', [AdministradorController::class, 'insertar_datos']);
 //match buscar
 Route::match(['get', 'post'],'/empleado/buscar', [EmpleadoController::class, 'buscar']);
-
+//match buscar por grupo
 Route::match(['get', 'post'],'/admin/buscar_grupo', [AdministradorController::class, 'Buscar_grupo']);
-
+//no sirve
 Route::match(['get', 'post'],'/admin/editar_preguntas', [AdministradorController::class, 'editar_preguntas']);
 //match actualizar
 Route::match(['get', 'post'],'/empleado/actualizar', [EmpleadoController::class, 'actualizar']);

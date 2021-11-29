@@ -31,7 +31,7 @@ class AdministradorController extends Controller
         $cargos = DB::select("select * from cargo");
 
         if ($request->isMethod('get')) {
-            return view('empleado.registrar')->with('grupos', $grupos)->with('cargos',$cargos);
+            return view('empleado.registrar')->with('grupos', $grupos)->with('cargos', $cargos);
         } else if ($request->isMethod('post')) {
             $registrar = DB::insert("INSERT INTO
         empleado(documento,nombrecom,cargo,grupo)
@@ -66,10 +66,20 @@ class AdministradorController extends Controller
 
     public function intentos(Request $request)
     {
-        $intento = DB::delete("DELETE FROM
-        respuesta_pregunta
-        WHERE
-        id = ?", [$request->ID]);
+        $intento = DB::select("SELECT
+        ev.id as id,
+        em.nombrecom as evaluador,
+        em.documento as evaluador_documento,
+        em2.nombrecom as evaluado,
+        em2.documento as evaluado_documento,
+        c.descripcion as cargo_evaluado,
+        ev.estado as estado_evaluacion,
+        em.perfil as admins
+        FROM evaluacion ev
+        INNER JOIN empleado em ON ev.evaluador = em.id
+        INNER JOIN empleado em2 ON ev.evaluado = em2.id
+        inner join cargo c on c.id = em2.cargo
+        where  em.documento = ?", [$request->ID]);
 
         return view('admin.intentos')->with('intento', $intento);
     }
@@ -167,9 +177,22 @@ class AdministradorController extends Controller
         }
     }
 
-    public function inactivarEmpleado($cedula, $estado)
+    public function borrar_intento($evaluador_documento, $id,$estado_evaluacion)
     {
         if (Auth::user()->perfil == 1) {
+            DB::update("UPDATE talentoh.evaluacion ev
+            INNER JOIN empleado em ON ev.evaluador = em.id
+            SET ev.estado=$estado_evaluacion 
+            WHERE em.documento = $evaluador_documento and ev.id = $id");
+            return  redirect('/admin/intentos');
+        } else {
+            return response('No esta autorizado', 403);
+        }
+    }
+
+    public function inactivarEmpleado($cedula, $estado)
+    {
+        if (Auth::user()->estado == 1) {
             DB::update("UPDATE empleado SET estado=$estado WHERE documento = $cedula");
             return  redirect('/admin/mostrar');
         } else {
@@ -230,8 +253,8 @@ class AdministradorController extends Controller
     public function camb_eva(Request $request)
     {
         $respuesta['hayDatos'] = false;
-        $respuesta['ID']=0;
-        $respuesta['actualizados']=null;
+        $respuesta['ID'] = 0;
+        $respuesta['actualizados'] = null;
         if ($request->isMethod('post')) {
             if ($request->input('N_ID') != null) {
 
@@ -242,8 +265,8 @@ class AdministradorController extends Controller
 
                 $select = "SELECT * FROM empleado WHERE documento = ?";
                 $idNuevoEvaluador =  DB::table('empleado')->where('documento', $request->N_ID)->value('id');
-                $actualizados = DB::update($update,[$idNuevoEvaluador,$request->ID]) ;
-                $respuesta['actualizados']=$actualizados;
+                $actualizados = DB::update($update, [$idNuevoEvaluador, $request->ID]);
+                $respuesta['actualizados'] = $actualizados;
             } else {
                 $respuesta['hayDatos'] = true;
                 $evaluaciones = DB::select("SELECT ev.*,
@@ -256,14 +279,15 @@ class AdministradorController extends Controller
                                          INNER JOIN empleado em2 ON em2.id = ev.evaluador
                                         WHERE em2.documento = ?", [$request->ID]);
                 $respuesta['evaluaciones'] = $evaluaciones;
-                $respuesta['ID']=$request->ID;
-                }
+                $respuesta['ID'] = $request->ID;
             }
-            $respuesta = (object)$respuesta;
-            return view('admin.camb_eva')->with('respuesta', $respuesta);
+        }
+        $respuesta = (object)$respuesta;
+        return view('admin.camb_eva')->with('respuesta', $respuesta);
     }
 
-    public function asignarEvaluaciones(Request $request){
+    public function asignarEvaluaciones(Request $request)
+    {
 
 
         $file = $request->archivo->getClientOriginalName();
@@ -275,28 +299,27 @@ class AdministradorController extends Controller
         $errores = 0;
         while (($line = fgets($stream, 2048)) !== false) {
             $datos = explode(";", $line);
-            for($i=1;$i<count($datos);$i++){
+            for ($i = 1; $i < count($datos); $i++) {
                 $evaluador = $datos[0];
-                $evaluado =$datos[$i];
-                $idEvaluador = DB::table('empleado')->where('documento', $evaluador)->value('id');
-                $idEvaluado =   DB::table('empleado')->where('documento', $evaluado)->value('id');
-                echo $evaluado."-".$idEvaluado."<br/>";
-               /* $tipoEvaluacion = $this->obtenerTipoEvalucion($evaluado);
-                if($tipoEvaluacion!=null){
-                    DB::insert("INSERT INTO evaluacion (evaluador,evaluado,tp_evaluado,estado) VALUES (?,?,?,0)",[$idEvaluador,$idEvaluado,$tipoEvaluacion]);
-                }*/
-
-            }
-            if ($this->insertar_preguntas($datos)) {
-                $cont++;
-            } else {
-                $errores++;
+                $evaluado = $datos[$i];
+                $idEvaluador = DB::table('empleado')->where('documento', trim($evaluador))->value('id');
+                $idEvaluado =   DB::table('empleado')->where('documento', trim($evaluado))->value('id');
+                echo $evaluador . "-" . $idEvaluador . "<br/>";
+                $tipoEvaluacion = $this->obtenerTipoEvaluacion($evaluado);
+               if ($tipoEvaluacion != null) {
+                    if (DB::insert("INSERT INTO evaluacion (evaluador,evaluado,tp_evaluado,estado) VALUES (?,?,?,0)", [$idEvaluador, $idEvaluado, $tipoEvaluacion])) {
+                        $cont++;
+                    } else {
+                        $errores++;
+                    }
+                }
             }
         }
         echo "Se insertaron correctamente : " . $cont . ", y se presetaron " . $errores . " errores";
     }
 
-    public function obtenerTipoEvalucion($documentoEmpleado){
+    public function obtenerTipoEvaluacion($documentoEmpleado)
+    {
         $sql = "SELECT
         tp.id as tipo_evaluacion
         FROM talentoh.empleado e
@@ -305,24 +328,14 @@ class AdministradorController extends Controller
         INNER JOIN tipo_evaluacion tp ON concat (c.descripcion) = tp.nombre
         WHERE documento = $documentoEmpleado;";
         $resultado = DB::select($sql);
-        if(count($resultado)>0){
+        if (count($resultado) > 0) {
             return $resultado[0]->tipo_evaluacion;
-        }return null;
-
+        }
+        return null;
     }
 
     public function Buscar_grupo(Request $request)
     {
-
-        if ($request->isMethod('get')) {
-            return view('empleado.buscar');
-        } else if ($request->isMethod('post')) {
-
-            $mostrar = $this->getDatosEmpleado($request->documento);
-            return view('empleado.perfil')->with('perfil', $mostrar);
-        }
-
-
         $grupos = DB::select("SELECT
         em.nombrecom as nombre,
         em.documento as cedula,
@@ -350,43 +363,43 @@ class AdministradorController extends Controller
 
     public function expo_resultados(Request $request)
     {
-        
-        $respuesta = DB::select('SELECT
-        e1.nombrecom as evaluado,
-        e1.documento as cedula,
-        c.descripcion as cargo,
-        g.nombre as grupo_empleado,
-        te.nombre as tipo_evaluacion,
-        gp.nombre as grupo_pregunta,
-        p.descripcion as pregunta,
-        COUNT(e.id) as numero_evaluaciones,
-        sum(r.valor) as puntajevaluacion_pregunta,
-        avg(r.valor) as promedio
-        FROM talentoh.respuesta_pregunta r
-        INNER JOIN evaluacion e ON e.id = r.evaluacion
-        INNER JOIN tipo_evaluacion_pregunta ep ON ep.id = r.evaluacion_pregunta
-        INNER JOIN pregunta p ON p.id = ep.pregunta
-        INNER JOIN tipo_evaluacion te ON te.id = ep.tipo_evaluacion
-        INNER JOIN grupo_pregunta gp ON gp.id = p.grupo_pregunta
-        INNER JOIN empleado e1 ON e.evaluado = e1.id
-        INNER JOIN cargo c ON c.id = e1.cargo
-        INNER JOIN grupo g ON g.id = e1.grupo
-        WHERE e1.documento = ?
-        group by
+        $respuesta = array();
+        $respuesta = DB::select(
+            'SELECT
+                    e1.nombrecom as evaluado,
+                    e1.documento as cedula,
+                    c.descripcion as cargo,
+                    g.nombre as grupo_empleado,
+                    te.nombre as tipo_evaluacion,
+                    gp.nombre as grupo_pregunta,
+                    p.descripcion as pregunta,
+                    COUNT(e.id) as numero_evaluaciones,
+                    sum(r.valor) as puntajevaluacion_pregunta,
+                    avg(r.valor) as promedio
+            FROM talentoh.respuesta_pregunta r
+            INNER JOIN evaluacion e ON e.id = r.evaluacion
+            INNER JOIN tipo_evaluacion_pregunta ep ON ep.id = r.evaluacion_pregunta
+            INNER JOIN pregunta p ON p.id = ep.pregunta
+            INNER JOIN tipo_evaluacion te ON te.id = ep.tipo_evaluacion
+            INNER JOIN grupo_pregunta gp ON gp.id = p.grupo_pregunta
+            INNER JOIN empleado e1 ON e.evaluado = e1.id
+            INNER JOIN cargo c ON c.id = e1.cargo
+            INNER JOIN grupo g ON g.id = e1.grupo
+            WHERE e1.documento = ?
+            GROUP BY
         e1.nombrecom ,
         e1.documento,
         te.nombre ,
         gp.nombre ,
         p.descripcion,
         c.descripcion,
-        g.nombre' ,[$request->ID]
+        g.nombre',
+            [$request->ID]
         );
-        if($request->input("submit")=="exportar"){
-            return PDF::loadView('admin._informe-evaluacion', ["respuesta"=>$respuesta,"ID"=>$request->ID])->stream('resultados.pdf');
+        if ($request->input("submit") == "exportar") {
+            return PDF::loadView('admin._informe-evaluacion', ["respuesta" => $respuesta, "ID" => $request->ID])->stream('resultados.pdf');
         }
 
-        return view('admin.exp_resultados')->with('respuesta', $respuesta)->with('ID',$request->ID);
-    
-
-}
+        return view('admin.exp_resultados')->with('respuesta', $respuesta)->with('ID', $request->ID);
+    }
 }

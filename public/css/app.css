@@ -513,3 +513,7 @@ p.si{
   text-align: center;
   font-size: 20pt;
 }
+
+thead{
+  position: relative;
+}

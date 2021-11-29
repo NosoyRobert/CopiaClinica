@@ -30,7 +30,7 @@
 
         <br><br>
 
-        <?php echo '<a href="" class="but">Proximamente</a>' //echo '<a href="/admin/intentos"  class="but">Borrar intentos</a>'; ?>
+        <?php echo '<a href="/admin/intentos"  class="but">Borrar intentos</a>'; ?>
 
         <br><br>
 

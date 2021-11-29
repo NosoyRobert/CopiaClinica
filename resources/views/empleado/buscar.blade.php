@@ -17,7 +17,7 @@
         <h1 class="titulo">Buscar Empleados</h1>
         <div class="section">
         <h3>Buscar por cedula:  </h3>
-        <input class="field" type="text" ID="ID" name="documento" placeholder="Cedula sin puntos">
+        <input class="field" type="text" ID="ID" name="documento" placeholder="Ingrese cedula a buscar">
 
         <br>
 
