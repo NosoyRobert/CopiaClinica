@@ -25,6 +25,9 @@
 			@if (Auth::user()->perfil == 1)
 				<li><a href="/empleado/administrar">ADMINISTRAR</a></li>
 			@endif
+			@if (Auth::user()->perfil == 2)
+				<li><a href="/empleado/jefe">JEFE</a></li>
+			@endif
 			<li><a href="/logout">CERRAR SESION</a></li>
 		</ul>
 	</nav>

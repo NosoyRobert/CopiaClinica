@@ -50,6 +50,11 @@ Route::post('/admin/intentos', [AdministradorController::class, 'intentos']);
 Route::get('/empleado/administrar', function (){
     return view('empleado.administrar');
 });
+//ruta jefe
+Route::get('/empleado/jefe', function (){
+    return view('empleado.jefe');
+});
+
 //ruta importar
 Route::get('/admin/importar', function (){
     return view('admin.importar');

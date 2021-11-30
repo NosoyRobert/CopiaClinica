@@ -179,7 +179,7 @@ class AdministradorController extends Controller
 
     public function borrar_intento($evaluador_documento, $id,$estado_evaluacion)
     {
-        if (Auth::user()->perfil == 1) {
+        if (Auth::user()->perfil == 1 && Auth::user()->perfil == 2) {
             DB::update("UPDATE talentoh.evaluacion ev
             INNER JOIN empleado em ON ev.evaluador = em.id
             SET ev.estado=$estado_evaluacion 
